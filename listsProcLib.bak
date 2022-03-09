@@ -1,0 +1,83 @@
+unit listsProcLib;
+interface
+type
+        intFile  = file of integer;
+procedure initDatFile(var fText: text; var fInt: intFile);
+procedure showDatFileInfo(var f: intFile);
+procedure writeRestOfList(var f3, f: intFile; vary: integer);
+procedure mergingLists(var f1, f2, f: intFile);
+
+implementation
+
+procedure initDatFile(var fText: text; var fInt: intFile);
+begin
+        while not eof(fText) do
+        begin
+                read(fText,tmp);
+                write(fInt,tmp);
+        end;
+end;
+
+procedure showDatFileInfo(var f: intFile);
+var
+        tmp:integer;
+begin
+        seek(f,0);
+        while not eof(f) do
+        begin
+                read(f,tmp);
+                write(tmp,' ');
+        end;
+        writeln;
+        seek(f,0)
+end;
+
+procedure writeRestOfList(var f3, f: intFile; vary: integer);
+begin
+        write(f,vary);
+        while not eof(f3) do
+        begin
+                read(f3,vary);
+                write(f,vary);
+        end;
+end;
+
+procedure mergingLists(var f1, f2, f: intFile);
+var
+        a, b: integer;
+begin
+        seek(f1,filesize(f1)-1);
+        read(f1,a);
+        seek(f2,filesize(f2)-1);
+        read(f2,b);
+        write(f1,b);
+        write(f2,a);
+        seek(f1,0);
+        seek(f2,0);
+        read(f1,a);
+        read(f2,b);
+        while not eof(f1) and not eof(f2) do
+        begin
+                if a>b then
+                begin
+                        write(f,b);
+                        read(f2,b);
+                end
+                else
+                begin
+                        write(f,a);
+                        read(f1,a);
+                end;
+        end;
+        if eof(f1) then
+                writeRestOfList(f2,f,b)
+        else
+                writeRestOfList(f1,f,a);
+        seek(f,filesize(f)-1);
+        truncate(f);
+        seek(f1,filesize(f)-1);
+        truncate(f1);
+        seek(f2,filesize(f2)-1);
+        truncate(f2);
+end;
+end.
