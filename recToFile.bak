@@ -1,0 +1,24 @@
+program recToFile;
+type
+        myRec = record
+        nameSurname: string[80];
+        age: integer;
+        end;
+var
+        f: file of myRec;
+        t: text;
+        a: myRec;
+begin
+        assign(t,'name-age.txt');
+        reset(t);
+        assign(f,'myRecFile.dat');
+        rewrite(f);
+        while not eof(t) do
+        begin
+                readln(t,a.nameSurname,a.age);
+                write(f,a);
+        end;
+        close(t);
+        close(f);
+        readln;
+end.
