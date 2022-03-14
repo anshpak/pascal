@@ -26,7 +26,7 @@ begin
         seek(f1,0);
         seek(f2,0);
 
-        writeln('Проверю, записались ли данные в .dat файлы.');
+        writeln('?ЕrЫЭЕМ,  _"а о"аН о"  --ЙЭ Ы .dat Д cоЙ.');
         writeln('A:');
         showDatFileInfo(f1);
         writeln('B:');
@@ -34,7 +34,7 @@ begin
 
         mergingLists(f1,f2,f);
 
-        writeln('Проверю результат сортировки: ');
+        writeln('?ЕrЫЭЕМ ЕЭaоНГ Г аrЕГ"ЕrЫж": ');
         showDatFileInfo(f);
 
         close(fText1);
@@ -44,3 +44,5 @@ begin
         close(f);
         readln;
 end.
+
+
