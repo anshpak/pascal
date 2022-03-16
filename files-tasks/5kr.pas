@@ -7,6 +7,7 @@ type
         nameSurname: string[80];
         marks: array[1..n] of byte;
         end;
+
 var
         t: text;
         a: array[1..m] of student;
@@ -49,7 +50,7 @@ begin
                 writeln(a[3].marks[i]);
         end;
 
-        {Записываю в типизированный файл}
+        {Записываю в текстовый файл}
         for i:=1 to m do
         begin
                 writeln(t,a[i].nameSurname);
