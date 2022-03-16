@@ -1,28 +1,41 @@
 program firstTaskKr;
 const
         n=200;
+        k=113;
 var
         t: text;
         i, a: integer;
         temp: string;
 begin
         assign(t,'squares.txt');
-
-        rewrite(t);
+        {Записываю числа в квадрате от 1 до n в текстовый файл}
+        {rewrite(t);
         for i:=1 to n do
         begin
                 writeln(t,i*i);
         end;
-        close(t);
-
-        reset(t);
+        close(t);}
+        {Открываю файл для чтения и проверяю, как записались числа}
+        {reset(t);
         while not eof(t) do
         begin
                 readln
-                (t,i);
+                (t,a);
                 readln;
-                writeln(i);
+                writeln(a);
         end;
-        close(t);
+        close(t);}
+        {Нахожу k-ю цифру}
+        reset(t);
+        i:=1;
+        while not eof(t) do
+        begin
+                readln(t,a);
+                if(a=k*k) then
+                begin
+                        writeln(a);
+                        break;
+                end;
+        end;
         readln;
 end.
