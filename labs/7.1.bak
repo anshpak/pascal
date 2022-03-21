@@ -1,7 +1,7 @@
 program seventhLab;
 const
-        n=11223;
-        x=0.45;
+        n=37;
+        x=0.5;
         size=9;
         degrees : array [1..size] of integer = (3, 9, 27, 81, 243, 729, 2187, 6561, 19683);
 
@@ -13,7 +13,24 @@ begin
         getNumLen:=Length(strTmp);
 end;
 
-function calcExpr(n: integer; x: real): real;
+procedure printHead;
+	begin
+		writeln('ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿':56);
+		Writeln('³           a           ³          sum          ³':56);
+		writeln('ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´':56);
+	end;
+
+procedure printMiddle(a, S:real);
+	begin
+		writeln('³    ':12, a:6:14,'³':4, S:18:14,'³':5);
+	end;
+
+procedure printFooter;
+	begin
+		writeln('ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ':56);
+	end;
+
+procedure calcWriteExpr(n: integer; x: real);
 var
         a, S: real;
         i: integer;
@@ -24,13 +41,14 @@ begin
         for i:=1 to n do
         begin
                 S:=S+a;
-                writeln(S);
                 a:=(a*i*degrees[getNumLen(i+1)]*(1-x))/((i+1)*degrees[getNumLen(i)]);
+                printMiddle(a, S);
         end;
-        calcExpr:=S;
 end;
 
 begin
-        writeln(calcExpr(n, x));
+        printHead;
+        calcWriteExpr(n, x);
+        printFooter;
         readln;
 end.
