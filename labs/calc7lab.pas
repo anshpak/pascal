@@ -1,70 +1,57 @@
 unit calc7lab;
+
 interface
-function getNumLen(num:integer):byte;
-function expToPower(num:real;power:byte):real;
-function getCalcResAndPrint(num:integer; x:real):real;
-procedure printHead;
-procedure printMiddle(numerator:real;denumenator:integer);
-procedure printFooter;
+const
+        size=9;
+        degrees : array [1..size] of integer = (3, 9, 27, 81, 243, 729, 2187, 6561, 19683);
+function getNumLen(num: integer):byte;
+procedure printHead(path: string);
+procedure printMiddle(a, S:real; path: string);
+procedure calcWriteExpr(n: integer; x: real; path: string);
 
 implementation
-function getNumLen(num:integer):byte;
+function getNumLen(num: integer): byte;
 var
-        strTmp:string;
+        strTmp: string;
 begin
-        str(num,strTmp);
+        str(num, strTmp);
         getNumLen:=Length(strTmp);
 end;
 
-function expToPower(num:real;power:byte):real;
+procedure printHead(path: string);
 var
-        i:byte;
-        res:real;
+        t: text;
 begin
-        res:=1;
-        for i:=1 to power do
-                res:=res*num;
-        expToPower:=res;
+        assign(t, path);
+        rewrite(t);
+	writeln(t, '            a                      sum           ':56);
+        close(t);
 end;
 
-function getCalcResAndPrint(num:integer; x:real):real;
+procedure printMiddle(a, S:real; path: string);
 var
-        i:byte;
-        res,t,fakeresult:real;
+        t: text;
 begin
-        res:=0;
-        fakeresult:=0;
-        t:=3*(1-x);
-        {‚¥àå â ¡«¨æë}
-        printHead;
-        for i:=1 to num do
+        assign(t, path);
+        append(t);
+        writeln(t, '     ':12, a:6:14,' ':4, S:19:14,' ':5);
+        close(t)
+end;
+
+procedure calcWriteExpr(n: integer; x: real; path: string);
+var
+        a, S: real;
+        i: integer;
+        iLen: byte;
+begin
+        S:=0;
+        a:=3*(1-x);
+        for i:=1 to n do
         begin
-                {‘¥à¥¤¨­  â ¡«¨æë}
-                printMiddle(t,i);
-                {}
-                res:=res+t;
-                t:=t*(expToPower(3,getNumLen(i))*(1-x)*i)/(i+1);
+                S:=S+a;
+                a:=(a*i*degrees[getNumLen(i+1)]*(1-x))/((i+1)*degrees[getNumLen(i)]);
+                printMiddle(a, S, path);
         end;
-        {¨§ â ¡«¨æë}
-        printFooter;
-        getCalcResAndPrint:=res;
 end;
-
-procedure printHead;
-	begin
-		writeln('ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿':70);
-		Writeln('³  ‡­ ¬¥­ â¥«ì  ³   —¨á«¨â¥«ì   ³':70);
-		writeln('ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´':70);
-	end;
-
-procedure printMiddle(numerator:real;denumenator:integer);
-	begin
-		writeln('³    ':42, denumenator:4,'³':8, numerator:12,'³':4);
-	end;
-
-procedure printFooter;
-	begin
-		writeln('ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ':70);
-	end;
 
 end.
