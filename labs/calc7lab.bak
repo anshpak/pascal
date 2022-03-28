@@ -1,10 +1,12 @@
 unit calc7lab;
 
 interface
+const
+        size=9;
+        degrees : array [1..size] of integer = (3, 9, 27, 81, 243, 729, 2187, 6561, 19683);
 function getNumLen(num: integer):byte;
-procedure printHead(path: string);
-procedure printMiddle(a, S:real; path: string);
-procedure calcWriteExpr(n: integer; x: real; path: string);
+function calcSum(n: integer; x: real): real;
+procedure steps(n: integer; x: real; path: string);
 
 implementation
 function getNumLen(num: integer): byte;
@@ -15,40 +17,42 @@ begin
         getNumLen:=Length(strTmp);
 end;
 
-procedure printHead(path: string);
+function  calcSum(n: integer; x: real): real;
 var
-        t: text;
-begin
-        assign(t, path);
-        rewrite(t);
-	writeln(t, '            a                      sum           ':56);
-        close(t);
-end;
-
-procedure printMiddle(a, S:real; path: string);
-var
-        t: text;
-begin
-        assign(t, path);
-        append(t);
-        writeln(t, '     ':12, a:6:14,' ':4, S:19:14,' ':5);
-        close(t)
-end;
-
-procedure calcWriteExpr(n: integer; x: real; path: string);
-var
-        a, S: real;
+        a, c, S: real;
         i: integer;
         iLen: byte;
 begin
         S:=0;
-        a:=3*(1-x);
-        for i:=1 to n do
+        c:=1-x;
+        a:=3*c;
+        for i:=2 to n do
         begin
                 S:=S+a;
-                a:=(a*i*degrees[getNumLen(i+1)]*(1-x))/((i+1)*degrees[getNumLen(i)]);
-                printMiddle(a, S, path);
+                a:=(a*degrees[getNumLen(i)]*c)/i;
         end;
+        calcSum:=S;
+end;
+
+procedure steps(n: integer; x: real; path: string);
+var
+        a, c, S: real;
+        i: integer;
+        iLen: byte;
+        var t: text;
+begin
+        assign(t, path);
+        append(t);
+        S:=0;
+        c:=1-x;
+        a:=3*c;
+        for i:=2 to n do
+        begin
+                S:=S+a;
+                a:=(a*degrees[getNumLen(i)]*c)/i;
+                writeln(t, a:5:3,' ':4, S:5:3,' ':5);
+        end;
+        close(t)
 end;
 
 end.

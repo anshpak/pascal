@@ -5,9 +5,8 @@ const
         size=9;
         degrees : array [1..size] of integer = (3, 9, 27, 81, 243, 729, 2187, 6561, 19683);
 function getNumLen(num: integer):byte;
-procedure printHead(path: string);
-procedure printMiddle(a, S:real; path: string);
-procedure calcWriteExpr(n: integer; x: real; path: string);
+function calcSum(n: integer; x: real): real;
+procedure steps(n: integer; x: real; path: string);
 
 implementation
 function getNumLen(num: integer): byte;
@@ -18,40 +17,44 @@ begin
         getNumLen:=Length(strTmp);
 end;
 
-procedure printHead(path: string);
+function  calcSum(n: integer; x: real): real;
 var
-        t: text;
-begin
-        assign(t, path);
-        rewrite(t);
-	writeln(t, '            a                      sum           ':56);
-        close(t);
-end;
-
-procedure printMiddle(a, S:real; path: string);
-var
-        t: text;
-begin
-        assign(t, path);
-        append(t);
-        writeln(t, '     ':12, a:6:14,' ':4, S:19:14,' ':5);
-        close(t)
-end;
-
-procedure calcWriteExpr(n: integer; x: real; path: string);
-var
-        a, S: real;
+        a, t, S: real;
         i: integer;
         iLen: byte;
 begin
         S:=0;
-        a:=3*(1-x);
-        for i:=1 to n do
+        t:=1-x;
+        a:=3*t;
+        for i:=2 to n do
         begin
                 S:=S+a;
-                a:=(a*i*degrees[getNumLen(i+1)]*(1-x))/((i+1)*degrees[getNumLen(i)]);
-                printMiddle(a, S, path);
+                iLen:=getNumLen(i);
+                a:=(a*degrees[iLen]*t)/i;
         end;
+        calcSum:=S;
+end;
+
+procedure steps(n: integer; x: real; path: string);
+var
+        a, t, S: real;
+        i: integer;
+        iLen: byte;
+        var txt: text;
+begin
+        assign(txt, path);
+        append(txt);
+        S:=0;
+        t:=1-x;
+        a:=3*t;
+        for i:=2 to n do
+        begin
+                S:=S+a;
+                iLen:=getNumLen(i);
+                a:=(a*degrees[iLen]*t)/i;
+                writeln(txt, a:5:3,' ':4, S:5:3,' ':5);
+        end;
+        close(txt)
 end;
 
 end.
