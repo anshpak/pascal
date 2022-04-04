@@ -28,7 +28,6 @@ begin
         for j:=n1.len downto 1  do
                 n1.a[j]:=j-1;
         showNum(n1);
-        writeln;
         n2.len:=10;
         write(n2.len);
         for j:=n2.len downto 1  do
