@@ -32,7 +32,7 @@ begin
         findNode := cur;
 end;
 
-function getListLen(var first: ptrNode): byte;
+function getLen(var first: ptrNode): byte;
 var
         cur: ptrNode;
         i: byte;
@@ -44,10 +44,10 @@ begin
                 i := i + 1;
                 cur := cur^.ptrNext;
         end;
-        getListLen := i;
+        getLen := i;
 end;
 
-procedure addToEnd(var first, last: ptrNode; data: integer);
+procedure addL(var first, last: ptrNode; data: integer);
 var
         cur: ptrNode;
 begin
@@ -63,7 +63,7 @@ begin
         end;
 end;
 
-procedure addToStart(var first, last: ptrNode; data: integer);
+procedure addF(var first, last: ptrNode; data: integer);
 var
         cur: ptrNode;
 begin
@@ -78,14 +78,14 @@ begin
         end;
 end;
 
-procedure addByIndex(var first, last: ptrNode; n: byte; data: integer);
+procedure addByI(var first, last: ptrNode; n: byte; data: integer);
 var
         cur, pred: ptrNode;
 begin
         if(n = 1) then
-                addToStart(first, last, data)
-        else if (n > getListLen(first) + 1) then
-                addToEnd(first, last, data)
+                addF(first, last, data)
+        else if (n > getLen(first) + 1) then
+                addL(first, last, data)
         else
         begin
                 pred := findNode(first, n - 1);
@@ -96,7 +96,7 @@ begin
         end;
 end;
 
-procedure delFirst(var first: ptrNode);
+procedure delF(var first: ptrNode);
 var
         cur: ptrNode;
 begin
@@ -110,7 +110,7 @@ begin
         end;
 end;
 
-procedure delLast(var first, last: ptrNode);
+procedure delL(var first, last: ptrNode);
 var
         cur, pred: ptrNode;
 begin
@@ -118,7 +118,7 @@ begin
                 writeln('Список пуст')
         else
         begin
-                pred := findNode(first, getListLen(first) - 1);
+                pred := findNode(first, getLen(first) - 1);
                 cur := pred^.ptrNext;
                 pred^.ptrNext := last^.ptrNext;
                 last := pred;
@@ -126,14 +126,14 @@ begin
         end;
 end;
 
-procedure delByIndex(var first, last: ptrNode; n: byte);
+procedure delByI(var first, last: ptrNode; n: byte);
 var
         cur, pred, next: ptrNode;
 begin
         if(n = 1) then
-                delFirst(first)
-        else if (n > getListLen(first) + 1) then
-                delLast(first, last)
+                delF(first)
+        else if (n > getLen(first) + 1) then
+                delL(first, last)
         else
         begin
                 cur := findNode(first, n);
@@ -149,10 +149,10 @@ var
         cur: ptrNode;
 begin
         if(first = NIL) then
-                writeln('Список пуст')
+                writeln('Список пуст, удалять нечего')
         else
                 while(first <> NIL) do
-                        delFirst(first);
+                        delF(first);
 end;
 
 procedure showList(var first: ptrNode);
@@ -160,7 +160,7 @@ var
         cur: ptrNode;
 begin
         if(first = Nil) then
-                writeln('Список пуст')
+                writeln('Список пуст, показать нечего')
         else
         begin
                 cur := first;
@@ -191,13 +191,11 @@ begin
         {Во всех add процедурах ечтьвозможность созать список}
         first := NIL;
         last := NIL;
-        delFirst(first);
-        delLast(first, last);
-        addToEnd(first, last, 1);
-        addToEnd(first, last, 2);
-        addToEnd(first, last, 3);
-        addToEnd(first, last, 4);
-        addToEnd(first, last, 5);
+        addL(first, last, 1);
+        addL(first, last, 2);
+        addL(first, last, 3);
+        addL(first, last, 4);
+        addL(first, last, 5);
         showList(first);
         delList(first);
         readln;
