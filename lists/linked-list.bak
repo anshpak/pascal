@@ -100,12 +100,28 @@ procedure delFirst(var first: ptrNode);
 var
         cur: ptrNode;
 begin
-        if (getListLen(first) = 0) then
+        if (first = NIL) then
                 writeln('‘―¨α®ª ―γαβ')
         else
         begin
                 cur := first;
                 first := first^.ptrNext;
+                dispose(cur);
+        end;
+end;
+
+procedure delLast(var first, last: ptrNode);
+var
+        cur, pred: ptrNode;
+begin
+        if (first = NIL) then
+                writeln('‘―¨α®ª ―γαβ')
+        else
+        begin
+                pred := findNode(first, getListLen(first) - 1);
+                cur := pred^.ptrNext;
+                pred^.ptrNext := last^.ptrNext;
+                last := pred;
                 dispose(cur);
         end;
 end;
@@ -140,6 +156,8 @@ var
 begin
         first := NIL;
         last := NIL;
+        delFirst(first);
+        delLast(first, last);
         addToEnd(first, last, 5);
         addToEnd(first, last, 0);
         addToEnd(first, last, 11);
