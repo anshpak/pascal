@@ -144,16 +144,31 @@ begin
         end;
 end;
 
+procedure delList(var first: ptrNode);
+var
+        cur: ptrNode;
+begin
+        if(first = NIL) then
+                writeln('Список пуст')
+        else
+                while(first <> NIL) do
+                        delFirst(first);
+end;
+
 procedure showList(var first: ptrNode);
 var
         cur: ptrNode;
 begin
-        cur := first;
-        while(cur <> NIL) do
+        if(first = Nil) then
+                writeln('Список пуст')
+        else
         begin
-
-                writeln(cur^.data);
-                cur := cur^.ptrNext;
+                cur := first;
+                while(cur <> NIL) do
+                begin
+                        writeln(cur^.data);
+                        cur := cur^.ptrNext;
+                        end;
         end;
 end;
 
@@ -172,26 +187,18 @@ var
         first: ptrNode;
         last: ptrNode;
 begin
+        {Если индекс больше длины списка, то добавляю в конец, так же и с поиском: нахожу последнее звено}
+        {Во всех add процедурах ечтьвозможность созать список}
         first := NIL;
         last := NIL;
         delFirst(first);
         delLast(first, last);
-        addToEnd(first, last, 5);
-        addToEnd(first, last, 0);
-        addToEnd(first, last, 11);
-        addToEnd(first, last, 9);
+        addToEnd(first, last, 1);
+        addToEnd(first, last, 2);
+        addToEnd(first, last, 3);
         addToEnd(first, last, 4);
-        addToEnd(first, last, -4);
-        addToStart(first, last, 0);
-        addToStart(first, last, -3);
-        addByIndex(first, last, 7, 7);
-        addByIndex(first, last, 7, 7);
-        addByIndex(first, last, 7, 7);
-        addByIndex(first, last, 11, 1000);
-        {Если индекс больше длины списка, добавляю в конец, так же и с поиском: нахожу последнее}
+        addToEnd(first, last, 5);
         showList(first);
-        writeln('Удаляю');
-        delByIndex(first, last, 5);
-        showList(first);
+        delList(first);
         readln;
 end.
