@@ -17,10 +17,20 @@ begin
         last := temp;
 end;
 
-procedure addNode(var first, last: ptrNode; data: integer);
+procedure addToEnd(var first, last: ptrNode; data: integer);
+var
+        temp: ptrNode;
 begin
         if(first = NIL) then
-                addFirstNode(first, last, data);
+                addFirstNode(first, last, data)
+        else
+        begin
+                new(temp);
+                temp^.data := data;
+                temp^.ptrNext := last^.ptrNext;
+                last^.ptrNext := temp;
+                last := temp;
+        end;
 end;
 
 procedure showList(var first: ptrNode);
@@ -28,8 +38,9 @@ var
         temp: ptrNode;
 begin
         temp := first;
-        while(temp^.ptrNext <> NIL) do
+        while(temp <> NIL) do
         begin
+
                 writeln(temp^.data);
                 temp := temp^.ptrNext;
         end;
@@ -41,7 +52,10 @@ var
 begin
         first := NIL;
         last := NIL;
-        addNode(first, last, 5);
+        addToEnd(first, last, 5);
+        addToEnd(first, last, 0);
+        addToEnd(first, last, 11);
+        addToEnd(first, last, 9);
         showList(first);
         readln;
 end.
