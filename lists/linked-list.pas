@@ -78,11 +78,22 @@ begin
         end;
 end;
 
-procedure addByIndex(var first, last: ptrNode; data: integer);
+procedure addByIndex(var first, last: ptrNode; n: byte; data: integer);
 var
-        cur: ptrNode;
+        cur, pred: ptrNode;
 begin
-
+        if(n = 1) then
+                addToStart(first, last, data)
+        else if (n > getListLen(first) + 1) then
+                addToEnd(first, last, data)
+        else
+        begin
+                pred := findNode(first, n - 1);
+                new(cur);
+                cur^.data := data;
+                cur^.ptrNext := pred^.ptrNext;
+                pred^.ptrNext := cur;
+        end;
 end;
 
 procedure showList(var first: ptrNode);
@@ -123,8 +134,11 @@ begin
         addToEnd(first, last, -4);
         addToStart(first, last, 0);
         addToStart(first, last, -3);
+        addByIndex(first, last, 7, 7);
+        addByIndex(first, last, 7, 7);
+        addByIndex(first, last, 7, 7);
+        addByIndex(first, last, 11, 1000);
+        {Если индекс больше длины списка, добавляю в конец, так же и с поиском: нахожу последнее}
         showList(first);
-        writeln('Проверка');
-        showNode(first, -7);
         readln;
 end.

@@ -32,6 +32,21 @@ begin
         findNode := cur;
 end;
 
+function getListLen(var first: ptrNode): byte;
+var
+        cur: ptrNode;
+        i: byte;
+begin
+        i := 0;
+        cur := first;
+        while(cur <> NIL) do
+        begin
+                i := i + 1;
+                cur := cur^.ptrNext;
+        end;
+        getListLen := i;
+end;
+
 procedure addToEnd(var first, last: ptrNode; data: integer);
 var
         cur: ptrNode;
@@ -63,6 +78,24 @@ begin
         end;
 end;
 
+procedure addByIndex(var first, last: ptrNode; n: byte; data: integer);
+var
+        cur, pred: ptrNode;
+begin
+        if(n = 1) then
+                addToStart(first, last, data)
+        else if (n > getListLen(first) + 1) then
+                addToEnd(first, last, data)
+        else
+        begin
+                pred := findNode(first, n - 1);
+                new(cur);
+                cur^.data := data;
+                cur^.ptrNext := pred^.ptrNext;
+                pred^.ptrNext := cur;
+        end;
+end;
+
 procedure showList(var first: ptrNode);
 var
         cur: ptrNode;
@@ -80,8 +113,6 @@ procedure showNode(var first: ptrNode; n: byte);
 var
         cur: ptrNode;
 begin
-        if(n <= 0) then
-                writeln('Введите правильный номер');
         cur := findNode(first, n);
         if(cur = NIL) then
                 writeln('Данные не найдены')
@@ -103,8 +134,10 @@ begin
         addToEnd(first, last, -4);
         addToStart(first, last, 0);
         addToStart(first, last, -3);
+        addByIndex(first, last, 7, 7);
+        addByIndex(first, last, 7, 7);
+        addByIndex(first, last, 7, 7);
+        addByIndex(first, last, 110, 1000);
         showList(first);
-        writeln('Проверка');
-        showNode(first, 7);
         readln;
 end.
