@@ -126,6 +126,24 @@ begin
         end;
 end;
 
+procedure delByIndex(var first, last: ptrNode; n: byte);
+var
+        cur, pred, next: ptrNode;
+begin
+        if(n = 1) then
+                delFirst(first)
+        else if (n > getListLen(first) + 1) then
+                delLast(first, last)
+        else
+        begin
+                cur := findNode(first, n);
+                pred := findNode(first, n - 1);
+                next := findNode(first, n + 1);
+                pred^.ptrNext := next;
+                dispose(cur);
+        end;
+end;
+
 procedure showList(var first: ptrNode);
 var
         cur: ptrNode;
@@ -173,8 +191,7 @@ begin
         {Если индекс больше длины списка, добавляю в конец, так же и с поиском: нахожу последнее}
         showList(first);
         writeln('Удаляю');
-        delLast(first, last);
-        delLast(first, last);
+        delByIndex(first, last, 5);
         showList(first);
         readln;
 end.
