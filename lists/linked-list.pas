@@ -96,6 +96,20 @@ begin
         end;
 end;
 
+procedure delFirst(var first: ptrNode);
+var
+        cur: ptrNode;
+begin
+        if (first = NIL) then
+                writeln('Список пуст')
+        else
+        begin
+                cur := first;
+                first := first^.ptrNext;
+                dispose(cur);
+        end;
+end;
+
 procedure showList(var first: ptrNode);
 var
         cur: ptrNode;
@@ -126,6 +140,7 @@ var
 begin
         first := NIL;
         last := NIL;
+        delFirst(first);
         addToEnd(first, last, 5);
         addToEnd(first, last, 0);
         addToEnd(first, last, 11);
@@ -139,6 +154,11 @@ begin
         addByIndex(first, last, 7, 7);
         addByIndex(first, last, 11, 1000);
         {Если индекс больше длины списка, добавляю в конец, так же и с поиском: нахожу последнее}
+        showList(first);
+        writeln('Удаляю');
+        delFirst(first);
+        delFirst(first);
+        delFirst(first);
         showList(first);
         readln;
 end.
