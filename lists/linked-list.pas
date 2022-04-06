@@ -6,59 +6,107 @@ type
                 ptrNext: ptrNode;
                 end;
 
-procedure addFirstNode(var first, last: ptrNode; data: integer);
+procedure createList(var first, last: ptrNode; data: integer);
 var
-        temp: ptrNode;
+        cur: ptrNode;
 begin
-        new(temp);
-        temp^.data := data;
-        temp^.ptrNext := first;
-        first := temp;
-        last := temp;
+        new(cur);
+        cur^.data := data;
+        cur^.ptrNext := first;
+        first := cur;
+        last := cur;
+end;
+
+function findNode(var first: ptrNode; n: byte): ptrNode;
+var
+        i: byte;
+        cur: ptrNode;
+begin
+        i := 1;
+        cur := first;
+        while ((i <> n) and (cur <> NIL)) do
+        begin
+                cur := cur^.ptrNext;
+                i := i + 1;
+        end;
+        findNode := cur;
+end;
+
+function getListLen(var first: ptrNode): byte;
+var
+        cur: ptrNode;
+        i: byte;
+begin
+        i := 0;
+        cur := first;
+        while(cur <> NIL) do
+        begin
+                i := i + 1;
+                cur := cur^.ptrNext;
+        end;
+        getListLen := i;
 end;
 
 procedure addToEnd(var first, last: ptrNode; data: integer);
 var
-        temp: ptrNode;
+        cur: ptrNode;
 begin
         if(first = NIL) then
-                addFirstNode(first, last, data)
+                createList(first, last, data)
         else
         begin
-                new(temp);
-                temp^.data := data;
-                temp^.ptrNext := last^.ptrNext;
-                last^.ptrNext := temp;
-                last := temp;
+                new(cur);
+                cur^.data := data;
+                cur^.ptrNext := last^.ptrNext;
+                last^.ptrNext := cur;
+                last := cur;
         end;
 end;
 
 procedure addToStart(var first, last: ptrNode; data: integer);
 var
-        temp: ptrNode;
+        cur: ptrNode;
 begin
         if(first = NIL) then
-                addFirstNode(first, last, data)
+                createList(first, last, data)
         else
         begin
-                new(temp);
-                temp^.data := data;
-                temp^.ptrNext := first;
-                first := temp;
+                new(cur);
+                cur^.data := data;
+                cur^.ptrNext := first;
+                first := cur;
         end;
+end;
+
+procedure addByIndex(var first, last: ptrNode; data: integer);
+var
+        cur: ptrNode;
+begin
+
 end;
 
 procedure showList(var first: ptrNode);
 var
-        temp: ptrNode;
+        cur: ptrNode;
 begin
-        temp := first;
-        while(temp <> NIL) do
+        cur := first;
+        while(cur <> NIL) do
         begin
 
-                writeln(temp^.data);
-                temp := temp^.ptrNext;
+                writeln(cur^.data);
+                cur := cur^.ptrNext;
         end;
+end;
+
+procedure showNode(var first: ptrNode; n: byte);
+var
+        cur: ptrNode;
+begin
+        cur := findNode(first, n);
+        if(cur = NIL) then
+                writeln('Данные не найдены')
+        else
+                writeln(cur^.data);
 end;
 
 var
@@ -76,5 +124,7 @@ begin
         addToStart(first, last, 0);
         addToStart(first, last, -3);
         showList(first);
+        writeln('Проверка');
+        showNode(first, -7);
         readln;
 end.
