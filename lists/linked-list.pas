@@ -33,6 +33,21 @@ begin
         end;
 end;
 
+procedure addToStart(var first, last: ptrNode; data: integer);
+var
+        temp: ptrNode;
+begin
+        if(first = NIL) then
+                addFirstNode(first, last, data)
+        else
+        begin
+                new(temp);
+                temp^.data := data;
+                temp^.ptrNext := first;
+                first := temp;
+        end;
+end;
+
 procedure showList(var first: ptrNode);
 var
         temp: ptrNode;
@@ -58,6 +73,8 @@ begin
         addToEnd(first, last, 9);
         addToEnd(first, last, 4);
         addToEnd(first, last, -4);
+        addToStart(first, last, 0);
+        addToStart(first, last, -3);
         showList(first);
         readln;
 end.
