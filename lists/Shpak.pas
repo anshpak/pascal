@@ -67,10 +67,7 @@ begin
         assign(f, path);
         rewrite(f);
         for i := 1 to size do
-        begin
                 write(f, m^[i]);
-                i := i + 1;
-        end;
         close(f);
 end;
 
@@ -238,20 +235,20 @@ var
 begin
         clrscr;
         createList(first, last, n, stopN);
-        writeln('Исходный список чисел: ');
-        {showList(first);}
-        writeLToFile('src/Numbers.dat', first);
-        datToTxt('src/Numbers.dat', 'src/Numbers.txt');
+        {writeln('Spisok: ');
+        showList(first);}
+        writeLToFile('Numbers.dat', first);
+        datToTxt('Numbers.dat', 'Numbers.txt');
         a := getOddAmount(first);
         b := getEvenAmount(first);
         getmem(Odd, a * sizeof(longint));
         getmem(Even, b * sizeof(longint));
         fillOddMas(Odd, a, first);
         fillEvenMas(Even, b, first);
-        writeMToFile('src/Odd.dat', Odd, a);
-        datToTxt('src/Odd.dat', 'src/Odd.txt');
-        writeMToFile('src/Even.dat', Even, b);
-        datToTxt('src/Even.dat', 'src/Even.txt');
+        writeMToFile('Odd.dat', Odd, a);
+        datToTxt('Odd.dat', 'Odd.txt');
+        writeMToFile('Even.dat', Even, b);
+        datToTxt('Even.dat', 'Even.txt');
         {readln;}
         clrscr;
         textbackground(5);
