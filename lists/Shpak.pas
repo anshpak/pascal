@@ -1,7 +1,7 @@
 program kr;
 uses crt;
 const
-        n = 10;
+        n = 30;
         stopN = 200;
 type
         ptrNode = ^node;
@@ -238,7 +238,8 @@ var
 begin
         clrscr;
         createList(first, last, n, stopN);
-        showList(first);
+        writeln('Исходный список чисел: ');
+        {showList(first);}
         writeLToFile('src/Numbers.dat', first);
         datToTxt('src/Numbers.dat', 'src/Numbers.txt');
         a := getOddAmount(first);
@@ -251,11 +252,20 @@ begin
         datToTxt('src/Odd.dat', 'src/Odd.txt');
         writeMToFile('src/Even.dat', Even, b);
         datToTxt('src/Even.dat', 'src/Even.txt');
-        readln;
+        {readln;}
         clrscr;
+        textbackground(5);
+        textcolor(6);
+        window(10, 10, 60, 35);
+        delay(1000);
+        clrscr;
+        writeln('Summa cifr nechetnye:');
         showMas(Odd, a);
-        readln;
+        textbackground(6);
+        textcolor(5);
+        window(60, 10, 110, 35);
         clrscr;
+        writeln('Summa cifr chetnye:');
         showMas(Even, b);
         freemem(Even, b * sizeof(longint));
         freemem(Odd, a * sizeof(longint));
