@@ -43,7 +43,7 @@ begin
         end;
 end;
 
-procedure writeToFile(path: string; var first: ptrNode);
+procedure writeLToFile(path: string; var first: ptrNode);
 var
         f: file of longint;
         cur: ptrNode;
@@ -55,6 +55,21 @@ begin
         begin
                 write(f, cur^.data);
                 cur := cur^.ptrNext;
+        end;
+        close(f);
+end;
+
+procedure writeMToFile(path: string; var m: massiv; size: integer);
+var
+        f: file of longint;
+        i: integer;
+begin
+        assign(f, path);
+        rewrite(f);
+        for i := 1 to size do
+        begin
+                write(f, m^[i]);
+                i := i + 1;
         end;
         close(f);
 end;
@@ -224,7 +239,7 @@ begin
         clrscr;
         createList(first, last, n, stopN);
         showList(first);
-        writeToFile('src/Numbers.dat', first);
+        writeLToFile('src/Numbers.dat', first);
         datToTxt('src/Numbers.dat', 'src/Numbers.txt');
         a := getOddAmount(first);
         b := getEvenAmount(first);
@@ -232,9 +247,10 @@ begin
         getmem(Even, b * sizeof(longint));
         fillOddMas(Odd, a, first);
         fillEvenMas(Even, b, first);
-        readln;
-        writeln(a);
-        writeln(b);
+        writeMToFile('src/Odd.dat', Odd, a);
+        datToTxt('src/Odd.dat', 'src/Odd.txt');
+        writeMToFile('src/Even.dat', Even, b);
+        datToTxt('src/Even.dat', 'src/Even.txt');
         readln;
         clrscr;
         showMas(Odd, a);
