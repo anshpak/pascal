@@ -1,4 +1,5 @@
 program linkedList;
+uses crt;
 type
         ptrNode = ^node;
         node = record
@@ -187,8 +188,9 @@ var
         first: ptrNode;
         last: ptrNode;
 begin
+        clrscr;
         {Если индекс больше длины списка, то добавляю в конец, так же и с поиском: нахожу последнее звено}
-        {Во всех add процедурах ечтьвозможность созать список}
+        {Во всех add процедурах еcть возможность созать список}
         first := NIL;
         last := NIL;
         addL(first, last, 1);

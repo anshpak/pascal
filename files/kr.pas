@@ -1,19 +1,22 @@
 program kr;
 const
-        m=10;
-        n=10;
         c1=0;
         c2=1;
         c3=5;
         c4=11;
 type
-        squareMatrix=array[1..n,1..m] of integer;
+        mRow = array[1..1] of integer;
+        ptrRow = ^mRow;
+        {$r-}
+        squareMatrix = array[1..1] of ptrRow;
+        myMatrix = ^squareMatrix;
 var
-        myMatrix: squareMatrix;
+        A: myMatrix;
         fours: integer;
+        n, m, i, j: byte;
 
 {Процедура заполнения типизированного файла случайными числами}
-procedure RandomsInFile(fPath: string; c1, c2, c3, c4: integer);
+procedure RandomsInFile(fPath: string; c1, c2, c3, c4: integer; n, m: byte);
 var
         f: file of integer;
         numArray: array[1..4] of integer;
@@ -32,8 +35,8 @@ begin
         close(f);
 end;
 
-{Процедура записываю в матрицу из типизированного файла}
-procedure matrixFromFile(fPath: string; var matrix:squareMatrix);
+{Процедура записи в матрицу из типизированного файла}
+procedure matrixFromFile(fPath: string; var matrix: myMatrix; n, m: byte);
 var
         f: file of integer;
         i, j, a: integer;
@@ -44,27 +47,27 @@ begin
                 for j:=1 to m do
                 begin
                         read(f,a);
-                        matrix[i][j]:=a;
+                        matrix^[i]^[j]:=a;
                 end;
         close(f);
 end;
 
-{ПРоцедура, чтобы посмотреть матрицу}
-procedure showMatrix(var matrix:squareMatrix);
+{ПРоцедура вывода матрицы}
+procedure showMatrix(var matrix: myMatrix; n, m: byte);
 var
         i,j:integer;
 begin
         for i:=1 to n do
                 begin
                 for j:=1 to m do
-                        write(matrix[i,j]:6);
+                        write(matrix^[i]^[j]:6);
                 writeln();
                 writeln();
                 end;
 end;
 
-{ПРоцедура поиска четверок в матрице}
-function getFours(var matrix:squareMatrix):integer;
+{Процедура поиска четверок в матрице}
+function getFours(var matrix: myMatrix; n, m: byte):integer;
 var
         i,j,counter:integer;
 begin
@@ -72,14 +75,15 @@ begin
         for i:=1 to n-1 do
                 for j:=1 to m-1 do
                         begin
-                        if (matrix[i,j]<>matrix[i,j+1]) and (matrix[i,j]<>matrix[i+1,j]) and (matrix[i,j]<>matrix[i+1,j+1]) and
-                                (matrix[i,j+1]<> matrix[i+1,j]) and (matrix[i,j+1]<>matrix[i+1,j+1]) and (matrix[i+1,j]<>matrix[i+1,j+1]) then
+                        if (matrix^[i]^[j]<>matrix^[i]^[j+1]) and (matrix^[i]^[j]<>matrix^[i+1]^[j]) and (matrix^[i]^[j]<>matrix^[i+1]^[j+1]) and
+                                (matrix^[i]^[j+1]<> matrix^[i+1]^[j]) and (matrix^[i]^[j+1]<>matrix^[i+1]^[j+1]) and (matrix^[i+1]^[j]<>matrix^[i+1]^[j+1]) then
                                 counter:=counter+1;
                         end;
         getFours:=counter;
 end;
 
-procedure datToTxt(fPath,tPath: string);
+{Процедура записи из типизированного в текстовый}
+procedure datToTxt(fPath,tPath: string; n, m: byte);
 var
         f: file of integer;
         t: text;
@@ -115,12 +119,20 @@ begin
 end;
 
 begin
-        randomsInFile('matrixDAT.dat',c1,c2,c3,c4);
-        matrixFromFile('matrixDAT.dat',myMatrix);
-        showMatrix(myMatrix);
-        fours:=getFours(myMatrix);
+        m := 5;
+        n := 5;
+        getmem(A, n * sizeof(squareMatrix));
+        for i := 1 to n do
+                        getmem(A^[i], m * sizeof(ptrRow));
+        randomsInFile('matrixDAT.dat',c1,c2,c3,c4, n, m);
+        matrixFromFile('matrixDAT.dat',A, n, m);
+        showMatrix(A, n, m);
+        fours:=getFours(A, n, m);
         writeln('Задача решена, пожалуйста, посмотрите текстовый файл.');
-        datToTxt('matrixDAT.dat','matrixTXT.txt');
+        datToTxt('matrixDAT.dat','matrixTXT.txt', n, m);
         answerToTxt('matrixTXT.txt',fours);
+        for i := 1 to n do
+                freemem(A^[i], m * sizeof(ptrRow));
+        freemem(A, n * sizeof(squareMatrix));
         readln;
 end.

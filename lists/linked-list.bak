@@ -1,4 +1,5 @@
 program linkedList;
+uses crt;
 type
         ptrNode = ^node;
         node = record
@@ -149,7 +150,7 @@ var
         cur: ptrNode;
 begin
         if(first = NIL) then
-                writeln('Список пуст')
+                writeln('Список пуст, удалять нечего')
         else
                 while(first <> NIL) do
                         delF(first);
@@ -160,7 +161,7 @@ var
         cur: ptrNode;
 begin
         if(first = Nil) then
-                writeln('Список пуст')
+                writeln('Список пуст, показать нечего')
         else
         begin
                 cur := first;
@@ -187,17 +188,22 @@ var
         first: ptrNode;
         last: ptrNode;
 begin
+        clrscr;
+        window(20,20,100,100);
+        delay(1000);
         {Если индекс больше длины списка, то добавляю в конец, так же и с поиском: нахожу последнее звено}
-        {Во всех add процедурах ечтьвозможность созать список}
+        {Во всех add процедурах еcть возможность созать список}
         first := NIL;
         last := NIL;
-        delF(first);
-        delL(first, last);
         addL(first, last, 1);
         addL(first, last, 2);
         addL(first, last, 3);
         addL(first, last, 4);
         addL(first, last, 5);
+        showList(first);
+        window(100,100,255,255);
+        clrscr;
+        delay(1000);
         showList(first);
         delList(first);
         readln;
