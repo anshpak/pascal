@@ -10,9 +10,24 @@ type
                 a: num;
                 end;
 
+function initN(path: string): bigNum;
 var
-        n1, n2: bigNum;
-        j: integer;
+        t: text;
+        len, a, i: integer;
+        temp: bigNum;
+begin
+        assign(t, path);
+        reset(t);
+        readln(t, len);
+        i := len;
+        temp.len := len;
+        while not eof(t) do begin
+                readln(t, a);
+                temp.a[i] := a;
+                i := i - 1;
+        end;
+        initN := temp;
+end;
 
 procedure showNum(n: bigNum);
 var
@@ -23,15 +38,13 @@ begin
         writeln;
 end;
 
-function max(var n1,n2: bigNum): bigNum;
+function max(var n1, n2: bigNum): bigNum;
 var
         i: integer;
 begin
-        if (n1.len = n2.len) then
-        begin
+        if (n1.len = n2.len) then begin
                 i := n1.len;
-                while i <> 0 do
-                begin
+                while i <> 0 do begin
                         if(n1.a[i] > n2.a[i]) then begin
                                 max := n1;
                                 exit;
@@ -56,7 +69,8 @@ begin
         end;
 end;
 
-function min(var n1,n2: bigNum): bigNum;
+
+function min(var n1, n2: bigNum): bigNum;
 var
         i: integer;
 begin
@@ -97,28 +111,23 @@ begin
         p := 0;
         y := max(n1, n2);
         x := min(n1, n2);
-        if(n1.len >= n2.len) then
-        begin
+        if(n1.len >= n2.len) then begin
                 l := n1.len;
                 k := n2.len;
         end
-        else
-        begin
+        else begin
                 k := n1.len;
                 l := n2.len;
         end;
-        for i := 1 to k do
-        begin
+        for i := 1 to k do begin
                 result.a[i] := (x.a[i] + y.a[i] + p) mod 10;
                 p := (x.a[i] + y.a[i] + p) div 10;
         end;
-        for i := k + 1 to l do
-        begin
+        for i := k + 1 to l do begin
                 result.a[i] := (y.a[i] + p) mod 10;
                 p := (y.a[i] + p) div 10;
         end;
-        if(p = 1) then
-                begin
+        if(p = 1) then begin
                         l := l + 1;
                         result.a[l] := 1;
                 end;
@@ -136,10 +145,8 @@ begin
                 n := n1.len
         else
                 n := n2.len;
-        for i := 1 to n do
-        begin
-                if(n1.a[i] <> n2.a[i]) then
-                begin
+        for i := 1 to n do begin
+                if(n1.a[i] <> n2.a[i]) then begin
                         flag := false;
                         break;
                 end;
@@ -194,51 +201,24 @@ function NOD(n1, n2: BigNum): bigNum;
 var
         x, y: bigNum;
 begin
-        {showNum(n1);
-        writeln(n1.len);
-        showNum(n2);
-        writeln(n2.len);
-        readln;}
         if((n2.len = 1) and (n2.a[1] = 0)) then
                 NOD := n1
-        else
-        begin
+        else begin
                 x := min(n1, n2);
                 y := max(n1, n2);
-                {
-                showNum(x);
-                writeln(x.len);
-                showNum(y);
-                writeln(y.len);
-                readln;
-                }
                 NOD := NOD(x, subtraction(y, x));
         end;
 end;
 
+var
+        n1, n2: bigNum;
+        j: integer;
+
 begin
         clrscr;
-        n1.len:=7;
-        n1.a[1]:=2;
-        n1.a[2]:=9;
-        n1.a[3]:=4;
-        n1.a[4]:=8;
-        n1.a[5]:=3;
-        n1.a[6]:=4;
-        n1.a[7]:=4;
+        n1 := initN('src/n1.txt');
         showNum(n1);
-
-        n2.len:=10;
-        n2.a[1]:=7;
-        n2.a[2]:=9;
-        n2.a[3]:=3;
-        n2.a[4]:=6;
-        n2.a[5]:=9;
-        n2.a[6]:=3;
-        n2.a[7]:=7;
-        n2.a[8]:=6;
-        n2.a[9]:=9;
-        n2.a[10]:=4;
+        n2 := initN('src/n2.txt');
         showNum(n2);
         showNum(NOD(n1, n2));
         readln;
