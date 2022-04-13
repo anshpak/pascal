@@ -10,25 +10,27 @@ type
         massiv = ^tmas;
         {$r-}
 
-procedure createList(var first, last: ptrNode; n: integer; stopN: longint);
+procedure createList(var first: ptrNode; n: integer; stopN: longint);
 var
         cur: ptrNode;
         i: integer;
+        temp: longint;
 begin
         randomize;
         new(cur);
         cur^.data := random(1000000);
         cur^.ptrNext := first;
         first := cur;
-        last := cur;
         i := 1;
         while (i <> n) do
         begin
+                temp := random(1000000);
+                if(temp = stopN) then
+                        break;
                 new(cur);
-                cur^.data := random(1000000);;
-                cur^.ptrNext := last^.ptrNext;
-                last^.ptrNext := cur;
-                last := cur;
+                cur^.data := temp;
+                cur^.ptrNext := first;
+                first := cur;
                 i := i + 1;
         end;
 end;
