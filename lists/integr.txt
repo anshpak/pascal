@@ -1,0 +1,13 @@
+Dlya promezhutka:
+a = -1.0472,
+b =  0.4189,
+stepeni n = 100,
+Integral ot tg^n poschitaetsya takim obrazom: 
+
+ -1.0472
+    _
+   | 
+   |  tg(x)^100 =3123971539405887200000.0000
+  _|
+
+  0.4189

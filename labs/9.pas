@@ -24,14 +24,14 @@ end;
 
 const
         a = -Pi / 4;
-        b = Pi / 6;
-        n = 1;
+        b = 8 * Pi / 3;
+        n = 471;
 var
         res: real;
         t: text;
 begin
         res := integrateTan(n, b) - integrateTan(n, a);
-        assign(t, 'integr.txt');
+        assign(t, 'src\integr.txt');
         rewrite(t);
         writeln(t, 'Dlya promezhutka:');
         writeln(t, 'a =', a:8:4, ',');
