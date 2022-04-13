@@ -1,0 +1,13 @@
+Dlya promezhutka:
+a = -0.7854,
+b =  0.5236,
+stepeni n = 1,
+Integral ot tg^n poschitaetsya takim obrazom: 
+
+ -0.7854
+    _
+   | 
+   |  tg(x)^1 = -0.2027
+  _|
+
+  0.5236

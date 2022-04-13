@@ -1,8 +1,5 @@
 program kr;
 uses crt;
-const
-        n = 30;
-        stopN = 200;
 type
         ptrNode = ^node;
         node = record
@@ -12,17 +9,6 @@ type
         tmas = array[1..1] of longint;
         massiv = ^tmas;
         {$r-}
-
-procedure addL(var first, last: ptrNode; data: longint);
-var
-        cur: ptrNode;
-begin
-        new(cur);
-        cur^.data := data;
-        cur^.ptrNext := last^.ptrNext;
-        last^.ptrNext := cur;
-        last := cur;
-end;
 
 procedure createList(var first, last: ptrNode; n: integer; stopN: longint);
 var
@@ -36,9 +22,13 @@ begin
         first := cur;
         last := cur;
         i := 1;
-        while ((i <> n) and (cur <> Nil)) do
+        while (i <> n) do
         begin
-                addL(first, last, random(1000000));
+                new(cur);
+                cur^.data := random(1000000);;
+                cur^.ptrNext := last^.ptrNext;
+                last^.ptrNext := cur;
+                last := cur;
                 i := i + 1;
         end;
 end;
@@ -56,40 +46,6 @@ begin
                 write(f, cur^.data);
                 cur := cur^.ptrNext;
         end;
-        close(f);
-end;
-
-procedure writeMToFile(path: string; var m: massiv; size: integer);
-var
-        f: file of longint;
-        i: integer;
-begin
-        assign(f, path);
-        rewrite(f);
-        for i := 1 to size do
-        begin
-                write(f, m^[i]);
-                readln;
-        end;
-        close(f);
-end;
-
-procedure datToTxt(fPath,tPath: string);
-var
-        f: file of longint;
-        t: text;
-        a: longint;
-begin
-        assign(f,fPath);
-        assign(t,tPath);
-        reset(f);
-        rewrite(t);
-        while(not eof(f)) do
-        begin
-                read(f, a);
-                writeln(t, a);
-        end;
-        close(t);
         close(f);
 end;
 
@@ -126,36 +82,6 @@ begin
         getOddAmount := i;
 end;
 
-function getEvenAmount(var first: ptrNode): integer;
-var
-        cur: ptrNode;
-        i: integer;
-begin
-        cur := first;
-        i := 0;
-        while(cur <> NIL) do
-        begin
-                if(not ifOdd(cur^.data)) then
-                        i := i + 1;
-                cur := cur^.ptrNext;
-        end;
-        getEvenAmount := i;
-end;
-
-procedure delF(var first: ptrNode);
-var
-        cur: ptrNode;
-begin
-        if (first = NIL) then
-                writeln('Список пуст')
-        else
-        begin
-                cur := first;
-                first := first^.ptrNext;
-                dispose(cur);
-        end;
-end;
-
 procedure delList(var first: ptrNode);
 var
         cur: ptrNode;
@@ -163,57 +89,34 @@ begin
         if(first = NIL) then
                 writeln('Список пуст, удалять нечего')
         else
-                while(first <> NIL) do
-                        delF(first);
+                while(first <> NIL) do begin
+                        cur := first;
+                        first := first^.ptrNext;
+                        dispose(cur);
+                end;
 end;
 
-procedure showList(var first: ptrNode);
+procedure fillMas(var odd, even: massiv; var first: ptrNode);
 var
         cur: ptrNode;
-begin
-        if(first = Nil) then
-                writeln('Список пуст, показать нечего')
-        else
-        begin
-                cur := first;
-                while(cur <> NIL) do
-                begin
-                        writeln(cur^.data);
-                        cur := cur^.ptrNext;
-                        end;
-        end;
-end;
-
-procedure fillOddMas(var mas: massiv; size: integer; var first: ptrNode);
-var
-        cur: ptrNode;
-        i: integer;
+        i, j, m: integer;
 begin
         cur := first;
         i := 1;
+        j := 1;
+        m := 1;
         while(cur <> NIL) do
         begin
                 if(ifOdd(cur^.data)) then
                 begin
-                        mas^[i] := cur^.data;
+                        odd^[j] := cur^.data;
+                        j := j + 1;
                         i := i + 1;
-                end;
-                cur := cur^.ptrNext;
-        end;
-end;
-
-procedure fillEvenMas(var mas: massiv; size: integer; var first: ptrNode);
-var
-        cur: ptrNode;
-        i: integer;
-begin
-        cur := first;
-        i := 1;
-        while(cur <> NIL) do
-        begin
-                if(not ifOdd(cur^.data)) then
+                end
+                else
                 begin
-                        mas^[i] := cur^.data;
+                        even^[m] := cur^.data;
+                        m := m + 1;
                         i := i + 1;
                 end;
                 cur := cur^.ptrNext;
@@ -230,45 +133,39 @@ begin
         end;
 end;
 
+const
+        n = 30;
+        stopN = 200;
+
 var
         first: ptrNode;
         last: ptrNode;
         Odd, Even: massiv;
-        a, b: integer;
+        l, k: integer;
 begin
         clrscr;
         createList(first, last, n, stopN);
-        writeln('Исходный список чисел: ');
-        {showList(first);}
         writeLToFile('Numbers.dat', first);
-        datToTxt('Numbers.dat', 'Numbers.txt');
-        a := getOddAmount(first);
-        b := getEvenAmount(first);
-        getmem(Odd, a * sizeof(longint));
-        getmem(Even, b * sizeof(longint));
-        fillOddMas(Odd, a, first);
-        fillEvenMas(Even, b, first);
-        writeMToFile('Odd.dat', Odd, a);
-        datToTxt('Odd.dat', 'Odd.txt');
-        writeMToFile('Even.dat', Even, b);
-        datToTxt('Even.dat', 'Even.txt');
-        {readln;}
-        clrscr;
+        l := getOddAmount(first);
+        k := n - l;
+        getmem(Odd, l * sizeof(longint));
+        getmem(Even, k * sizeof(longint));
+        fillMas(Odd, Even, first);
         textbackground(5);
         textcolor(6);
-        window(10, 10, 60, 35);
+        window(10, 5, 60, 10 + l);
         delay(1000);
         clrscr;
         writeln('Summa cifr nechetnye:');
-        showMas(Odd, a);
+        showMas(Odd, l);
         textbackground(6);
         textcolor(5);
-        window(60, 10, 110, 35);
+        window(60, 5, 100, 10 + k);
         clrscr;
         writeln('Summa cifr chetnye:');
-        showMas(Even, b);
-        freemem(Even, b * sizeof(longint));
-        freemem(Odd, a * sizeof(longint));
+        showMas(Even, k);
+        freemem(Even, k * sizeof(longint));
+        freemem(Odd, l * sizeof(longint));
         delList(first);
         readln;
 end.

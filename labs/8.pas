@@ -216,9 +216,9 @@ var
 
 begin
         clrscr;
-        n1 := initN('src/n1.txt');
+        n1 := initN('src\n1.txt');
         showNum(n1);
-        n2 := initN('src/n2.txt');
+        n2 := initN('src\n2.txt');
         showNum(n2);
         showNum(NOD(n1, n2));
         readln;
