@@ -14,6 +14,7 @@ procedure createList(var first: ptrNode; n: integer; stopN: longint);
 var
         cur: ptrNode;
         i: integer;
+        temp: longint;
 begin
         randomize;
         new(cur);
@@ -23,8 +24,11 @@ begin
         i := 1;
         while (i <> n) do
         begin
+                temp := random(1000000);
+                if(temp = stopN) then
+                        break;
                 new(cur);
-                cur^.data := random(1000000);;
+                cur^.data := temp;
                 cur^.ptrNext := first;
                 first := cur;
                 i := i + 1;
@@ -148,18 +152,31 @@ begin
         getmem(Odd, l * sizeof(longint));
         getmem(Even, k * sizeof(longint));
         fillMas(Odd, Even, first);
-        textbackground(5);
+        {textbackground(5);
         textcolor(6);
-        window(10, 5, 60, 10 + l);
-        delay(1000);
+        window(10, 5, 60, l + 10);
         clrscr;
-        writeln('Summa cifr nechetnye:');
+        writeln('nechetnye:');
         showMas(Odd, l);
         textbackground(6);
         textcolor(5);
-        window(60, 5, 100, 10 + k);
+        window(60, 5, 100, k + 10);
         clrscr;
-        writeln('Summa cifr chetnye:');
+        writeln('chetnye:');
+        showMas(Even, k);}
+        textMode(3+256);
+        clrscr;
+        textbackground(7);
+        textcolor(9);
+        window(1, 1, 30, l + 2);
+        clrscr;
+        writeln('nechetnye:');
+        showMas(Odd, l);
+        textbackground(10);
+        textcolor(11);
+        window(31, 1, 60, k + 2);
+        clrscr;
+        writeln('chetnye:');
         showMas(Even, k);
         freemem(Even, k * sizeof(longint));
         freemem(Odd, l * sizeof(longint));

@@ -24,7 +24,7 @@ end;
 
 const
         a = -Pi / 4;
-        b = 8 * Pi / 3;
+        b = Pi / 6;
         n = 471;
 var
         res: real;

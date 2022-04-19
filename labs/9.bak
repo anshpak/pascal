@@ -31,7 +31,7 @@ var
         t: text;
 begin
         res := integrateTan(n, b) - integrateTan(n, a);
-        assign(t, 'integr.txt');
+        assign(t, 'src\integr.txt');
         rewrite(t);
         writeln(t, 'Dlya promezhutka:');
         writeln(t, 'a =', a:8:4, ',');
