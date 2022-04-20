@@ -9,8 +9,6 @@ var
         i: integer;
 begin
         alph := 'abcdefghijklmnopqrstuvwxyz';
-        for i := 1 to 26 do
-                letters[i] := 0;
         while not eof(t1) do begin
                 read(t1, ch);
                 for i := 1 to 26 do
