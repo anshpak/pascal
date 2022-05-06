@@ -5,8 +5,8 @@ procedure coordSystem(xMin, yMin, xMax, yMax: word);
 var
         x0, y0, i: word;
 begin
-        x0 := xMax div 2;
-        y0 := yMax div 2;
+        x0 := xMin + (xMax - xMin) div 2;
+        y0 := yMin + (yMax - yMin) div 2;
         line(xMin, y0, xMax, y0);
         line(x0, yMin, x0, yMax);
         line(x0, yMin, x0 - 8, yMin + 10);
@@ -38,14 +38,20 @@ var
         x, y, x0, y0, i: word;
 begin
         gd := 0;
-        initgraph(gd, gm, '');
+        initGraph(gd, gm, '');
         x0 := getmaxx div 2;
         y0 := getmaxy div 2;
-        setcolor(Red);
+        setColor(Red);
         setLineStyle(0, 0, 3);
         line(0, y0, getmaxx, y0);
         line(x0, 0, x0, getmaxy);
-        setcolor(White);
+        setColor(Blue);
         coordSystem(0, 0, x0, y0);
+        setColor(Yellow);
+        coordSystem(x0, 0, getmaxx, y0);
+        {setColor(Green);
+        coordSystem(0, y0, x0, getmaxy);
+        setColor(LightCyan);
+        coordSystem(x0, y0, getmaxx, getmaxy);}
         readln;
 end.
