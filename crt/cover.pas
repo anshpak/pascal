@@ -3,15 +3,16 @@ uses crt;
 var
         i: byte;
 begin
-        for i := 1 to 12 do begin
+        {for i := 1 to 12 do begin
                 clrscr;
                 textbackground(5);
                 window(i * 10 - 10 + 2, 1, i * 10, 50);
                 clrscr;
-        end;
+        end;}
         clrscr;
-        textbackground(3);
+        textcolor(15);
         window(60, 25, 90, 55);
-        clrscr;
+        writeln('TEXTTEXTTEXT');
+
         readln;
 end.
