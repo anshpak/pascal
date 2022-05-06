@@ -1,7 +1,7 @@
 program gr;
 uses graph;
 
-procedure coordSystem(xMin, yMin, xMax, yMax: word);
+procedure drawCoordSyst(xMin, yMin, xMax, yMax: word);
 var
         x0, y0, i, margin: word;
 begin
@@ -47,12 +47,12 @@ begin
         line(0, y0, getmaxx, y0);
         line(x0, 0, x0, getmaxy);
         setColor(Blue);
-        coordSystem(0, 0, x0, y0);
+        drawCoordSyst(0, 0, x0, y0);
         setColor(Yellow);
-        coordSystem(x0, 0, getmaxx, y0);
+        drawCoordSyst(x0, 0, getmaxx, y0);
         setColor(Green);
-        coordSystem(0, y0, x0, getmaxy);
+        drawCoordSyst(0, y0, x0, getmaxy);
         setColor(LightCyan);
-        coordSystem(x0, y0, getmaxx, getmaxy);
+        drawCoordSyst(x0, y0, getmaxx, getmaxy);
         readln;
 end.

@@ -5,7 +5,7 @@ procedure coordSystem(xMin, yMin, xMax, yMax: word);
 var
         x0, y0, i, margin: word;
 begin
-        margin := 100; {Отступ}
+        margin := 20; {Отступ}
         x0 := xMin + (xMax - xMin) div 2; {Центр по x}
         y0 := yMin + (yMax - yMin) div 2; {Центр по y}
         line(xMin + margin, y0, xMax - margin, y0); {Ось x}
@@ -20,7 +20,7 @@ begin
         outtext('x');
         moveto(x0 - 14, y0 + 14);
         outtext('0');
-        i := 1;
+        i := 1; {Деления}
         while(y0 + i * 20 < yMax - margin) do begin
                 line(x0 - 4, y0 - i * 20, x0 + 4, y0 - i * 20);
                 line(x0 - 4, y0 + i * 20, x0 + 4, y0 + i * 20);
