@@ -22,11 +22,5 @@ begin
                 delay(1000);
         end;
         readln;
-        for i := 1  to  maxwin  do begin
-                with mw[i] do
-                        window (xl, yl, xr, yr);
-                delay(10000);
-                writeln ('old');
-        end;
-        readln;
+
 end.
