@@ -17,7 +17,7 @@ begin
         clrscr;
         with mw[2] do
                 window(xl, yl, xr, yr);
-        textBackGround(DarkGray);
+        textBackGround(LightGray);
         clrscr;
         with mw[1] do
                 window(xl, yl, xr, yr);
