@@ -68,11 +68,11 @@ begin
                                         window(xl, yl, xr, yr);
                                 textBackground(LightCyan);
                                 clrscr;
-                        end;
-                        else if (ch = #77) then begin
+                        end
+                        else if (ch = #75) then begin
                                 textBackground(Red);
                                 clrscr;
-                                with win2[3] do
+                                with win1[3] do
                                         window(xl, yl, xr, yr);
                                 textBackground(LightCyan);
                                 clrscr;
