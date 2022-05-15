@@ -28,7 +28,7 @@ begin
         setlinestyle(0,0,3);
         x0:=getmaxx div 2;
         y0:=getmaxy div 2;
-        setWriteMode(3);
+        setWriteMode(4);
         line(x0,0,x0,getmaxy);
         line(0,y0,getmaxx,y0);
         setcolor(15);
