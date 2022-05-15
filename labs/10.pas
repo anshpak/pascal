@@ -1,9 +1,9 @@
 program tenthLab;
 uses crt;
 type
-symbols = record
-        count: array[1..26] of integer;
-        ch: array[1..26] of char;
+        symbols = record
+                count: array[1..26] of integer;
+                ch: array[1..26] of char;
         end;
 const
         alph = 'abcdefghijklmnopqrstuvwxyz';
@@ -47,6 +47,7 @@ var
         t1, t2: text;
 
 begin
+        clrscr;
         assign(t1, 'src\poem.txt');
         assign(t2, 'src\letters.txt');
         reset(t1);
