@@ -37,10 +37,11 @@ begin
         while not eof(t1) do begin
                 writeln('*');
                 readln(t1, strTemp);
-                writeln(strTemp);
-                readln;
                 countLetters(poem, strTemp);
         end;
+
+        for ch := 'a' to 'z' do
+                writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);
 
         for ch := 'a' to 'z' do begin
                 write(poem[ch].counter, ' ');
