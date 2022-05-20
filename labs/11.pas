@@ -26,18 +26,21 @@ end;
 
 procedure getLetters(var t1, t2: text);
 var
-        poem: letters;
         ch: char;
+        poem: letters;
         strTemp: string;
 begin
         for ch := 'a' to 'z' do begin
                 poem[ch].counter := 0;
                 poem[ch].symbol := ch;
         end;
-        read(t1, strTemp);
-        writeln(strTemp);
-        countLetters(poem, strTemp);
-        readln;
+        while not eof(t1) do begin
+                writeln('*');
+                readln(t1, strTemp);
+                writeln(strTemp);
+                readln;
+                countLetters(poem, strTemp);
+        end;
 
         for ch := 'a' to 'z' do begin
                 write(poem[ch].counter, ' ');

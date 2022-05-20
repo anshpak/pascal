@@ -10,7 +10,7 @@ type
 
 procedure countLetters(var mas: letters; st: string);
 var
-        alphabet: set of 'a'..'z';           {Поправить}
+        alphabet: set of 'a'..'z';
         ch: char;
         i: integer;
 begin
@@ -18,40 +18,29 @@ begin
         for ch := 'a' to 'z' do
                 alphabet := alphabet + [ch];
         for i := 1 to length(st) do begin
-                writeln('*',i,'*');
-                readln;
                 ch := lowercase(st[i]);
-                writeln('*', ch, '*');
-                readln;
-                if (ch in alphabet) then begin
-                        writeln('Im here');
-                        readln;
-                        mas[ch].counter := mas[ch].counter + 1;
-                        end;
-                writeln('Before printing');
-                readln;
-                for ch := 'a' to 'z' do begin
-                write(mas[ch].counter, ' ');
-                write(mas[ch].symbol, ' ');
-        end;
-        readln;
+                if (ch in alphabet) then
+                        inc(mas[ch].counter);
         end;
 end;
 
 procedure getLetters(var t1, t2: text);
 var
-        poem: letters;
         ch: char;
+        poem: letters;
         strTemp: string;
 begin
         for ch := 'a' to 'z' do begin
                 poem[ch].counter := 0;
                 poem[ch].symbol := ch;
         end;
-        read(t1, strTemp);
-        writeln(strTemp);
-        countLetters(poem, strTemp);
-        readln;
+        while not eof(t1) do begin
+                writeln('*');
+                read(t1, strTemp);
+                writeln(strTemp);
+                readln;
+                countLetters(poem, strTemp);
+        end;
 
         for ch := 'a' to 'z' do begin
                 write(poem[ch].counter, ' ');
