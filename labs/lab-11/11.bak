@@ -27,14 +27,14 @@ begin
                 readln(t, strTemp);
                 writeln('Price: ', strTemp, '.');
                 readln(t, strTemp);
-                writeln('Vacancies: ', strTemp, '.');
-                readln;
+                writeln('Vacancies: ', strTemp, '.', chr(13));
         end;
 end;
 
 var
         t: text;
         f: file of tour;
+        ch: char;
 begin
         {Задачи:}
         {Выбрать коммерческие туры.
@@ -44,9 +44,17 @@ begin
         clrscr;
         assign(t, 'tour-agency.txt');
         assign(f, 'tour-agency.dat');
-        reset(t);
+        {reset(t)};
         rewrite(f);
-        showFile(t);
+        repeat
+                ch := readkey;
+                case ch of
+                        #49: begin
+                                reset(t);
+                                showFile(t);
+                        end;
+                end;
+        until ch = #27;
         close(t);
         readln;
 end.
