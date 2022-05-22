@@ -22,15 +22,20 @@ procedure sortArr(var mas: letters);
 var
         c, h: char;
 begin
-        for c := 'a' to 'y' do
-                for h := 'a' to chr(ord('z') - ord(c) + 97) do begin
-                        if mas[h].counter > mas[chr(ord(h) + 1)].counter then begin
-                                writeln(mas[h].symbol, ' ', mas[chr(ord(h) + 1)].symbol);
-                                {swap(mas[h], mas[chr(ord(h) + 1)]);}
+        for c := 'a' to 'y' do begin
+                for h := 'a' to chr(ord('z') - ord(c) + 96) do
+                        if mas[h].counter < mas[chr(ord(h) + 1)].counter then begin
+                                swap(mas[h], mas[chr(ord(h) + 1)]);
                         end;
-                writeln('***************');
-                readln;
-                end;
+        for h := 'a' to 'z' do begin
+                write(mas[h].symbol, ' ');
+                write(mas[h].counter, ' ');
+                writeln;
+        end;
+        writeln('***************');
+        readln;
+        readln;
+        end;
 end;
 
 procedure countLetters(var mas: letters; st: string);

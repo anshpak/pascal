@@ -8,7 +8,7 @@ type
         end;
         letters = array['a'..'z'] of letter;
 
-procedure swap(var x, y: letter);
+procedure swap(var x, y: letter);                                                                      {3}
 var
         t: letter;
 begin
@@ -22,14 +22,20 @@ procedure sortArr(var mas: letters);
 var
         c, h: char;
 begin
+        {Сортировка пузырьком работает ещё лишние пару раз, так и должно быть?}                        {2}
         for c := 'a' to 'y' do begin
-                for h := 'a' to chr(ord('z') - ord(c) + 97) do
-                        {if mas[h].counter > mas[chr(ord(h) + 1)].counter then begin}
-                        writeln(mas[h].symbol, ' ', mas[chr(ord(h) + 1)].symbol);
-                                {swap(mas[h], mas[chr(ord(h) + 1)]);}
-                        {end;}
+                for h := 'a' to chr(ord('z') - ord(c) + 96) do
+                        if mas[h].counter < mas[chr(ord(h) + 1)].counter then begin
+                                swap(mas[h], mas[chr(ord(h) + 1)]);
+                        end;
+        {Если понадобится проверить работу процедуры.}
+        {for h := 'a' to 'z' do begin
+                write(mas[h].symbol, ' ');
+                write(mas[h].counter, ' ');
+                writeln;
+        end;
         writeln('***************');
-        readln;
+        readln;}
         end;
 end;
 
@@ -47,7 +53,7 @@ begin
                 if (ch in alphabet) then begin
                         {Это место требует проверки.
                         Почему-то пробел считается символом,
-                        который находится в алфавите.}                                          {1}
+                        который находится в алфавите.}                                                 {1}
                         {writeln('Simvol ', ch, ' prisutstvuet v alfavite.');
                         readln;}
                         inc(mas[ch].counter);
@@ -81,12 +87,12 @@ begin
 
         sortArr(poem);
 
-        {for ch := 'a' to 'z' do begin
+        for ch := 'a' to 'z' do begin
                 write(poem[ch].symbol, ' ');
                 write(poem[ch].counter, ' ');
                 writeln;
         end;
-        readln;}
+        readln;
 
 
         {Пока не записываю в файл, потому что нужно доделать сортировку}
