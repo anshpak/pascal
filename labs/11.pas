@@ -94,8 +94,11 @@ begin
         end;
         readln;}
 
-        for ch := 'a' to 'z' do
+        ch := 'a';
+        repeat
                 writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);
+                inc(ch);
+        until (poem[ch].counter = 0) or (ch = 'z');
 end;
 
 

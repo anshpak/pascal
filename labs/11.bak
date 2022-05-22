@@ -87,16 +87,15 @@ begin
 
         sortArr(poem);
 
-        for ch := 'a' to 'z' do begin
+        {for ch := 'a' to 'z' do begin
                 write(poem[ch].symbol, ' ');
                 write(poem[ch].counter, ' ');
                 writeln;
         end;
-        readln;
+        readln;}
 
-        {Пока не записываю в файл, потому что нужно доделать сортировку}
-        {for ch := 'a' to 'z' do
-                writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);}
+        for ch := 'a' to 'z' do
+                writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);
 end;
 
 
