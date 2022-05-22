@@ -81,6 +81,51 @@ begin
         write(f, myTour);
 end;
 
+procedure editTour(var f: fTour);
+var
+        n: byte;
+        myTour, tempTour: tour;
+        fTemp: fTour;
+begin
+        assign(fTemp, 'temp.dat');
+        rewrite(fTemp);
+        writeln('Enter the number of tour: ');
+        readln(n);
+        writeln('Enter the country of a tour:');
+        readln(myTour.country);
+        writeln('Enter the city of a tour:');
+        readln(myTour.city);
+        writeln('Enter the residence of a tour:');
+        readln(myTour.residence);
+        writeln('Enter the type of a tour:');
+        readln(myTour.class);
+        writeln('Enter the price of a tour:');
+        readln(myTour.price);
+        writeln('Enter the number of vacancies of a tour:');
+        readln(myTour.vacancies);
+        while not eof(f) do begin
+                if filePos(f) <> n - 1  then begin
+                        read(f, tempTour);
+                        write(fTemp, tempTour);
+                end
+                else begin
+                        write(fTemp, myTour);
+                end;
+        end;
+
+        writeln('Im here');
+        showTypeFile(fTemp);
+        readln;
+
+        seek(f, 0);
+        truncate(f);
+        while not eof(fTemp) do begin
+                read(fTemp, tempTour);
+                write(f, tempTour);
+        end;
+        close(fTemp);
+end;
+
 var
         t: text;
         f: fTour;
@@ -102,15 +147,23 @@ begin
                 case ch of
                         #49: begin
                                 reset(t);
+                                clrscr;
                                 showTextFile(t);
                         end;
                         #50: begin
                                 seek(f, 0);
+                                clrscr;
                                 showTypeFile(f);
                         end;
                         #51: begin
+                                clrscr;
                                 seek(f, fileSize(f));
                                 addTour(f);
+                        end;
+                        #52: begin
+                                clrscr;
+                                seek(f, 0);
+                                editTour(f);
                         end;
                 end;
         until ch = #27;
