@@ -11,24 +11,39 @@ type
         end;
         fTour = file of tour;
 
+procedure showTour(var myTour: tour);
+begin
+        writeln('Country: ', myTour.country, '.');
+        writeln('City: ', myTour.city, '.');
+        writeln('Residence: ', myTour.residence, '.');
+        writeln('Tour tipe: ', myTour.class, '.');
+        writeln('Price: ', myTour.price, '.');
+        writeln('Vacancies: ', myTour.vacancies, '.', #10#13);
+end;
+
 procedure showTextFile(var t: text);
 var
-        strTemp: string[30];
+        myTour: tour;
         i: byte;
 begin
         while not eof(t) do begin
-                readln(t, strTemp);
-                writeln('Country: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('City: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Residence: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Tour tipe: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Price: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Vacancies: ', strTemp, '.', #10#13);
+                readln(t, myTour.country);
+                readln(t, myTour.city);
+                readln(t, myTour.residence);
+                readln(t, myTour.class);
+                readln(t, myTour.price);
+                readln(t, myTour.vacancies);
+                showTour(myTour);
+        end;
+end;
+
+procedure showTypeFile(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                showTour(myTour);
         end;
 end;
 
@@ -45,6 +60,25 @@ begin
                 readln(t, myTour.vacancies);
                 write(f, myTour);
         end;
+end;
+
+procedure addTour(var f: fTour);
+var
+        myTour: tour;
+begin
+        writeln('Enter the country of a tour:');
+        readln(myTour.country);
+        writeln('Enter the city of a tour:');
+        readln(myTour.city);
+        writeln('Enter the residence of a tour:');
+        readln(myTour.residence);
+        writeln('Enter the type of a tour:');
+        readln(myTour.class);
+        writeln('Enter the price of a tour:');
+        readln(myTour.price);
+        writeln('Enter the number of vacancies of a tour:');
+        readln(myTour.vacancies);
+        write(f, myTour);
 end;
 
 var
@@ -69,6 +103,14 @@ begin
                         #49: begin
                                 reset(t);
                                 showTextFile(t);
+                        end;
+                        #50: begin
+                                seek(f, 0);
+                                showTypeFile(f);
+                        end;
+                        #51: begin
+                                seek(f, fileSize(f));
+                                addTour(f);
                         end;
                 end;
         until ch = #27;

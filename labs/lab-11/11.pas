@@ -62,6 +62,25 @@ begin
         end;
 end;
 
+procedure addTour(var f: fTour);
+var
+        myTour: tour;
+begin
+        writeln('Enter the country of a tour:');
+        readln(myTour.country);
+        writeln('Enter the city of a tour:');
+        readln(myTour.city);
+        writeln('Enter the residence of a tour:');
+        readln(myTour.residence);
+        writeln('Enter the type of a tour:');
+        readln(myTour.class);
+        writeln('Enter the price of a tour:');
+        readln(myTour.price);
+        writeln('Enter the number of vacancies of a tour:');
+        readln(myTour.vacancies);
+        write(f, myTour);
+end;
+
 var
         t: text;
         f: fTour;
@@ -86,9 +105,16 @@ begin
                                 showTextFile(t);
                         end;
                         #50: begin
-                                reset(f);
+                                seek(f, 0);
                                 showTypeFile(f);
                         end;
+                        #51: begin
+                                seek(f, fileSize(f));
+                                addTour(f);
+                        end;
+                        #52: begin
+                                seek(f, 0);
+
                 end;
         until ch = #27;
         close(t);
