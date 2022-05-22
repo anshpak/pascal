@@ -1,12 +1,25 @@
 program temp;
 {$R-}
 uses crt;
+const
+        maxwin = 3;
 type
         letter = record
                 counter: integer;
                 symbol: char;
         end;
         letters = array['a'..'z'] of letter;
+        winrecord = record
+                xl, yl, xr, yr: byte
+                end;
+        tmw = array[1..maxwin] of winrecord;
+const
+        win1: tmw = ((xl: 15; yl: 7; xr: 55; yr: 27),
+                (xl: 9; yl: 4; xr: 51; yr: 26),
+                (xl: 10; yl: 5; xr: 50; yr: 25));
+        win2: tmw = ((xl: 75; yl: 7; xr: 115; yr: 27),
+                (xl: 69; yl: 4; xr: 111; yr: 26),
+                (xl: 70; yl: 5; xr: 110; yr: 25));
 
 procedure swap(var x, y: letter);                                                                      {3}
 var
@@ -22,8 +35,7 @@ procedure sortArr(var mas: letters);
 var
         c, h: char;
 begin
-        {Сортировка пузырьком работает ещё лишние пару раз, так и должно быть?}                        {2}
-        for c := 'a' to 'y' do begin
+        for c := 'a' to 'y' do begin                                                                    {2}
                 for h := 'a' to chr(ord('z') - ord(c) + 96) do
                         if mas[h].counter < mas[chr(ord(h) + 1)].counter then begin
                                 swap(mas[h], mas[chr(ord(h) + 1)]);
@@ -101,6 +113,16 @@ begin
         until (poem[ch].counter = 0) or (ch = 'z');
 end;
 
+procedure writeFromFile(var t: text);
+var
+        i: integer;
+        str: string;
+begin
+        while not eof(t) do begin
+                readln(t, str);
+                writeln(str);
+        end;
+end;
 
 var
         t1, t2: text;
@@ -111,6 +133,57 @@ begin
         reset(t1);
         rewrite(t2);
         getLetters(t1, t2);
+
+        reset(t1);
+        reset(t2);
+
+        textBackground(Yellow);
+        clrscr;
+
+        {Тень первого окна}
+        with win1[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
+
+        {обводка первого окна}
+        with win1[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+
+        {Первое окно}
+        with win1[3] do
+                window(xl, yl, xr, yr);
+        textBackground(5);
+        clrscr;
+
+        textBackGround(5);
+        textColor(0);
+        writeFromFile(t1);
+
+        {Тень второго окна}
+        with win2[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
+
+        {обводка второго окна}
+        with win2[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+
+        {Второе окно}
+        with win2[3] do
+                window(xl, yl, xr, yr);
+        textBackground(5);
+        clrscr;
+
+        textBackGround(5);
+        textColor(0);
+        writeFromFile(t2);
+
         close(t2);
         close(t1);
         readln;
