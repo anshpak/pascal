@@ -23,9 +23,14 @@ var
         c, h: char;
 begin
         for c := 'a' to 'y' do
-                for h := 'a' to chr(ord('z') - ord(c) + 97) do
-                        if mas[h].counter > mas[chr(ord(h) + 1)].counter then
-                                swap(mas[h], mas[chr(ord(h) + 1)]);
+                for h := 'a' to chr(ord('z') - ord(c) + 97) do begin
+                        if mas[h].counter > mas[chr(ord(h) + 1)].counter then begin
+                                writeln(mas[h].symbol, ' ', mas[chr(ord(h) + 1)].symbol);
+                                {swap(mas[h], mas[chr(ord(h) + 1)]);}
+                        end;
+                writeln('***************');
+                readln;
+                end;
 end;
 
 procedure countLetters(var mas: letters; st: string);
@@ -66,21 +71,27 @@ begin
                 countLetters(poem, strTemp);
         end;
 
-        for ch := 'a' to 'z' do begin
+        {Для возможных проверок.}
+        {for ch := 'a' to 'z' do begin
                 write(poem[ch].symbol, ' ');
                 write(poem[ch].counter, ' ');
                 writeln;
         end;
-        readln;
-        for ch := 'a' to 'z' do
-                writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);
+        readln;}
 
         sortArr(poem);
 
-        for ch := 'a' to 'z' do begin
-                write(poem[ch].counter, ' ');
+        {for ch := 'a' to 'z' do begin
                 write(poem[ch].symbol, ' ');
+                write(poem[ch].counter, ' ');
+                writeln;
         end;
+        readln;}
+
+
+        {Пока не записываю в файл, потому что нужно доделать сортировку}
+        {for ch := 'a' to 'z' do
+                writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);}
 end;
 
 

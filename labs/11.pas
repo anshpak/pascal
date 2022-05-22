@@ -22,10 +22,15 @@ procedure sortArr(var mas: letters);
 var
         c, h: char;
 begin
-        for c := 'a' to 'y' do
+        for c := 'a' to 'y' do begin
                 for h := 'a' to chr(ord('z') - ord(c) + 97) do
-                        if mas[h].counter > mas[chr(ord(h) + 1)].counter then
-                                swap(mas[h], mas[chr(ord(h) + 1)]);
+                        {if mas[h].counter > mas[chr(ord(h) + 1)].counter then begin}
+                        writeln(mas[h].symbol, ' ', mas[chr(ord(h) + 1)].symbol);
+                                {swap(mas[h], mas[chr(ord(h) + 1)]);}
+                        {end;}
+        writeln('***************');
+        readln;
+        end;
 end;
 
 procedure countLetters(var mas: letters; st: string);
@@ -76,12 +81,14 @@ begin
 
         sortArr(poem);
 
-        for ch := 'a' to 'z' do begin
+        {for ch := 'a' to 'z' do begin
                 write(poem[ch].symbol, ' ');
                 write(poem[ch].counter, ' ');
                 writeln;
         end;
-        readln;
+        readln;}
+
+
         {Пока не записываю в файл, потому что нужно доделать сортировку}
         {for ch := 'a' to 'z' do
                 writeln(t2, poem[ch].symbol, ': ', poem[ch].counter);}
