@@ -14,7 +14,7 @@ type
                 end;
         tmw = array[1..maxwin] of winrecord;
 const
-        win1: tmw = ((xl: 15; yl: 4; xr: 68; yr: 29),
+        win1: tmw = ((xl: 13; yl: 4; xr: 68; yr: 29),
                 (xl: 9; yl: 2; xr: 64; yr: 28),
                 (xl: 10; yl: 3; xr: 63; yr: 27));
         win2: tmw = ((xl: 74; yl: 4; xr: 115; yr: 29),
