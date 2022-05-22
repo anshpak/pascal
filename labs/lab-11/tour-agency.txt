@@ -1,0 +1,2 @@
+"Turkey" "Alanya" "Senza the Inn Resort & Spa 5" "wellness" 650 18
+"Egipt" "Sharm El Sheikh" "Royal Albatros Moderna 5" "wellness" 1003 1

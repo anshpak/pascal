@@ -1,0 +1,24 @@
+program eleventhLab;
+uses crt;
+type
+        tour = record
+                country: string[30]; {Страна}
+                city: string[30]; {Город}
+                residence: string[30]; {Место проживания (отель или дом отдыха)}
+                class: string[30]; {Характер тура (коммерческий, оздоровительный и т. д.)}
+                price: word; {Цена}
+                vacancies: byte; {Количество свободных мест}
+        end;
+
+var
+        t: text;
+begin
+        {Задачи:}
+        {Выбрать коммерческие туры.
+        Выбрать туры отдыха.
+        Выбрать три самых дорогих тура.
+        Выбрать три самых дешевых тура.}
+        clrscr;
+        assign(t, 'tour-agency.txt');
+        readln;
+end.
