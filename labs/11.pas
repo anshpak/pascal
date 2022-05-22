@@ -14,12 +14,12 @@ type
                 end;
         tmw = array[1..maxwin] of winrecord;
 const
-        win1: tmw = ((xl: 15; yl: 7; xr: 55; yr: 27),
-                (xl: 9; yl: 4; xr: 51; yr: 26),
-                (xl: 10; yl: 5; xr: 50; yr: 25));
-        win2: tmw = ((xl: 75; yl: 7; xr: 115; yr: 27),
-                (xl: 69; yl: 4; xr: 111; yr: 26),
-                (xl: 70; yl: 5; xr: 110; yr: 25));
+        win1: tmw = ((xl: 15; yl: 4; xr: 68; yr: 29),
+                (xl: 9; yl: 2; xr: 64; yr: 28),
+                (xl: 10; yl: 3; xr: 63; yr: 27));
+        win2: tmw = ((xl: 74; yl: 4; xr: 115; yr: 29),
+                (xl: 70; yl: 2; xr: 111; yr: 28),
+                (xl: 71; yl: 3; xr: 110; yr: 27));
 
 procedure swap(var x, y: letter);                                                                      {3}
 var
@@ -151,15 +151,17 @@ begin
                 window(xl, yl, xr, yr);
         textBackground(White);
         clrscr;
+        textColor(Black);
+        write(' poem.txt');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':46);
 
         {Первое окно}
         with win1[3] do
                 window(xl, yl, xr, yr);
-        textBackground(5);
+        textBackground(LightCyan);
         clrscr;
-
-        textBackGround(5);
-        textColor(0);
+        textColor(Black);
         writeFromFile(t1);
 
         {Тень второго окна}
@@ -173,15 +175,17 @@ begin
                 window(xl, yl, xr, yr);
         textBackground(White);
         clrscr;
+        textColor(Black);
+        write(' letters.txt');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':29);
 
         {Второе окно}
         with win2[3] do
                 window(xl, yl, xr, yr);
-        textBackground(5);
+        textBackground(LightCyan);
         clrscr;
-
-        textBackGround(5);
-        textColor(0);
+        textColor(Black);
         writeFromFile(t2);
 
         close(t2);

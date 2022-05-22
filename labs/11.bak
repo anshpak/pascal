@@ -9,17 +9,17 @@ type
                 symbol: char;
         end;
         letters = array['a'..'z'] of letter;
-        window = record
+        winrecord = record
                 xl, yl, xr, yr: byte
                 end;
-        tmw = array[1..maxwin] of window;
+        tmw = array[1..maxwin] of winrecord;
 const
-        win1: tmw = ((xl: 15; yl: 7; xr: 55; yr: 27),
-                (xl: 9; yl: 4; xr: 51; yr: 26),
-                (xl: 10; yl: 5; xr: 50; yr: 25));
-        win2: tmw = ((xl: 75; yl: 7; xr: 115; yr: 27),
-                (xl: 69; yl: 4; xr: 111; yr: 26),
-                (xl: 70; yl: 5; xr: 110; yr: 25));
+        win1: tmw = ((xl: 15; yl: 4; xr: 68; yr: 29),
+                (xl: 9; yl: 2; xr: 64; yr: 28),
+                (xl: 10; yl: 3; xr: 63; yr: 27));
+        win2: tmw = ((xl: 74; yl: 4; xr: 115; yr: 29),
+                (xl: 70; yl: 2; xr: 111; yr: 28),
+                (xl: 71; yl: 3; xr: 110; yr: 27));
 
 procedure swap(var x, y: letter);                                                                      {3}
 var
@@ -113,6 +113,16 @@ begin
         until (poem[ch].counter = 0) or (ch = 'z');
 end;
 
+procedure writeFromFile(var t: text);
+var
+        i: integer;
+        str: string;
+begin
+        while not eof(t) do begin
+                readln(t, str);
+                writeln(str);
+        end;
+end;
 
 var
         t1, t2: text;
@@ -123,6 +133,61 @@ begin
         reset(t1);
         rewrite(t2);
         getLetters(t1, t2);
+
+        reset(t1);
+        reset(t2);
+
+        textBackground(Yellow);
+        clrscr;
+
+        {Тень первого окна}
+        with win1[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
+
+        {обводка первого окна}
+        with win1[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+        textColor(Black);
+        write(' poem.txt');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':45);
+
+        {Первое окно}
+        with win1[3] do
+                window(xl, yl, xr, yr);
+        textBackground(LightCyan);
+        clrscr;
+        textColor(Black);
+        writeFromFile(t1);
+
+        {Тень второго окна}
+        with win2[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
+
+        {обводка второго окна}
+        with win2[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+        textColor(Black);
+        write(' letters.txt');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':29);
+
+        {Второе окно}
+        with win2[3] do
+                window(xl, yl, xr, yr);
+        textBackground(LightCyan);
+        clrscr;
+        textColor(Black);
+        writeFromFile(t2);
+
         close(t2);
         close(t1);
         readln;
