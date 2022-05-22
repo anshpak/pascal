@@ -9,8 +9,9 @@ type
                 price: word; {Цена}
                 vacancies: byte; {Количество свободных мест}
         end;
+        fTour = file of tour;
 
-procedure showFile(var t: text);
+procedure showTextFile(var t: text);
 var
         strTemp: string[30];
         i: byte;
@@ -27,13 +28,28 @@ begin
                 readln(t, strTemp);
                 writeln('Price: ', strTemp, '.');
                 readln(t, strTemp);
-                writeln('Vacancies: ', strTemp, '.', chr(13));
+                writeln('Vacancies: ', strTemp, '.', #10#13);
+        end;
+end;
+
+procedure fillTypeFile(var t: text; var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(t) do begin
+                readln(t, myTour.country);
+                readln(t, myTour.city);
+                readln(t, myTour.residence);
+                readln(t, myTour.class);
+                readln(t, myTour.price);
+                readln(t, myTour.vacancies);
+                write(f, myTour);
         end;
 end;
 
 var
         t: text;
-        f: file of tour;
+        f: fTour;
         ch: char;
 begin
         {Задачи:}
@@ -44,14 +60,15 @@ begin
         clrscr;
         assign(t, 'tour-agency.txt');
         assign(f, 'tour-agency.dat');
-        {reset(t)};
+        reset(t);
         rewrite(f);
+        fillTypeFile(t, f);
         repeat
                 ch := readkey;
                 case ch of
                         #49: begin
                                 reset(t);
-                                showFile(t);
+                                showTextFile(t);
                         end;
                 end;
         until ch = #27;

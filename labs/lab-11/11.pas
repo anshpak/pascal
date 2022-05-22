@@ -9,31 +9,62 @@ type
                 price: word; {Цена}
                 vacancies: byte; {Количество свободных мест}
         end;
+        fTour = file of tour;
 
-procedure showFile(var t: text);
+procedure showTour(var myTour: tour);
+begin
+        writeln('Country: ', myTour.country, '.');
+        writeln('City: ', myTour.city, '.');
+        writeln('Residence: ', myTour.residence, '.');
+        writeln('Tour tipe: ', myTour.class, '.');
+        writeln('Price: ', myTour.price, '.');
+        writeln('Vacancies: ', myTour.vacancies, '.', #10#13);
+end;
+
+procedure showTextFile(var t: text);
 var
-        strTemp: string[30];
+        myTour: tour;
         i: byte;
 begin
         while not eof(t) do begin
-                readln(t, strTemp);
-                writeln('Country: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('City: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Residence: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Tour tipe: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Price: ', strTemp, '.');
-                readln(t, strTemp);
-                writeln('Vacancies: ', strTemp, '.', #10#13);
+                readln(t, myTour.country);
+                readln(t, myTour.city);
+                readln(t, myTour.residence);
+                readln(t, myTour.class);
+                readln(t, myTour.price);
+                readln(t, myTour.vacancies);
+                showTour(myTour);
+        end;
+end;
+
+procedure showTypeFile(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                showTour(myTour);
+        end;
+end;
+
+procedure fillTypeFile(var t: text; var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(t) do begin
+                readln(t, myTour.country);
+                readln(t, myTour.city);
+                readln(t, myTour.residence);
+                readln(t, myTour.class);
+                readln(t, myTour.price);
+                readln(t, myTour.vacancies);
+                write(f, myTour);
         end;
 end;
 
 var
         t: text;
-        f: file of tour;
+        f: fTour;
         ch: char;
 begin
         {Задачи:}
@@ -44,14 +75,19 @@ begin
         clrscr;
         assign(t, 'tour-agency.txt');
         assign(f, 'tour-agency.dat');
-        {reset(t)};
+        reset(t);
         rewrite(f);
+        fillTypeFile(t, f);
         repeat
                 ch := readkey;
                 case ch of
                         #49: begin
                                 reset(t);
-                                showFile(t);
+                                showTextFile(t);
+                        end;
+                        #50: begin
+                                reset(f);
+                                showTypeFile(f);
                         end;
                 end;
         until ch = #27;
