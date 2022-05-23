@@ -8,6 +8,26 @@ type
         rows = array [1..1] of ptrRow;
         matrix = ^rows;
 
+procedure initArr(var arr: matrix; m, n: byte; var t: text);
+var
+        i, j: byte;
+begin
+        for i := 1 to m do
+                for j := 1 to n do
+                        read(t, arr^[i]^[j]);
+end;
+
+procedure showArr(var arr: matrix; m, n: byte);
+var
+        i, j: byte;
+begin
+        for i := 1 to m do begin
+                for j := 1 to n do
+                        write(arr^[i]^[j], ' ');
+                writeln;
+        end;
+end;
+
 var
         t1, t2: text;
         m, n: byte;     {Если квадратная, то n}
@@ -25,7 +45,8 @@ begin
         for i := 1 to m do
                 getMem(myArr^[i], n * sizeof(elements));
 
-
+        initArr(myArr, m, n, t2);
+        showArr(myArr, m, n);
 
         for i := 1 to m do
                 freeMem(myArr^[i], n * sizeof(elements));
