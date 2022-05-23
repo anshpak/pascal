@@ -1,6 +1,6 @@
 program kontrolnayaRabota;
 {$R-}
-uses graph;
+uses crt, graph;
 type
         titem = integer;
         elements = array [1..1] of titem;
@@ -30,10 +30,12 @@ end;
 
 var
         t1, t2: text;
-        m, n: byte;     {Если квадратная, то n}
+        m, n, i, j: byte;     {Если квадратная, то n}
         myArr: matrix;
-        i, j: byte;
+        gd, gm: integer;
+        strTmp1, strTmp2: string;
 begin
+        clrscr;
         assign(t1, 'size.txt');
         assign(t2, 'matrix.txt');
         reset(t1);
@@ -51,8 +53,17 @@ begin
         for i := 1 to m do
                 freeMem(myArr^[i], n * sizeof(elements));
         freeMem(myArr, m * sizeOf(rows));
-
         close(t2);
         close(t1);
+
+        gd := 0;
+        str(m, strTmp1);
+        str(n, strTmp2);
+        initgraph(gd, gm, '');
+        setTextStyle(GothicFont, Horizdir, 10);
+        setTextJustify(1, 1);
+        outTextXY(getMaxX div 2, 100, 'Matrix');
+        outTextXY(getMaxX div 2, 200, strTmp1 + ' x ' + strTmp2);
+
         readln;
 end.
