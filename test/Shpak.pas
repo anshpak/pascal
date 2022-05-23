@@ -32,7 +32,7 @@ var
         t1, t2: text;
         m, n, i, j: byte;     {Если квадратная, то n}
         myArr: matrix;
-        gd, gm: integer;
+        gd, gm, lxc, lyc, rxc, ryc: integer;
         strTmp1, strTmp2: string;
 begin
         clrscr;
@@ -64,6 +64,22 @@ begin
         setTextJustify(1, 1);
         outTextXY(getMaxX div 2, 100, 'Matrix');
         outTextXY(getMaxX div 2, 200, strTmp1 + ' x ' + strTmp2);
+
+        setTextStyle(1, Horizdir, 4);
+
+        {200 - потому что это примерный отступ от текста выше}
+        lxc := getMaxX div 4;
+        lyc := ((getMaxY - 300) div 2) + 300;
+        rxc := 3 * lxc;
+        ryc := lyc;
+
+        setFillStyle(SolidFill, LightGray);
+        bar(lxc - 100, lyc - 100, lxc + 100, lyc + 100);
+        setViewPort(lxc - 100 , lyc - 100, lxc + 100, lyc + 100, true);
+        setviewport(0, 0, getmaxx - 1, getmaxy - 1, true);
+
+        bar(rxc - 100, ryc - 100, rxc + 100, ryc + 100);
+        setViewPort(rxc - 100 , ryc - 100, rxc + 100, ryc + 100, true);
 
         readln;
 end.
