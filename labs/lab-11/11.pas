@@ -93,49 +93,54 @@ begin
         write(f, myTour);
 end;
 
-procedure editTour(var f: fTour);
+procedure editTour(var f: fTour; change: sType; tourNum, fieldNum: byte);
 var
-        n: byte;
         myTour, tempTour: tour;
         fTemp: fTour;
+        numTmp: integer;
 begin
         assign(fTemp, 'temp.dat');
         rewrite(fTemp);
-        writeln('Enter the number of tour: ');
-        readln(n);
-        writeln('Enter the country of a tour:');
-        readln(myTour.country);
-        writeln('Enter the city of a tour:');
-        readln(myTour.city);
-        writeln('Enter the residence of a tour:');
-        readln(myTour.residence);
-        writeln('Enter the type of a tour:');
-        readln(myTour.class);
-        writeln('Enter the price of a tour:');
-        readln(myTour.price);
-        writeln('Enter the number of vacancies of a tour:');
-        readln(myTour.vacancies);
-        while not eof(f) do begin
-                if filePos(f) <> n - 1  then begin
-                        read(f, tempTour);
-                        write(fTemp, tempTour);
-                end
-                else begin
-                        write(fTemp, myTour);
-                        seek(f, filePos(f) + 1);
-                end;
+        while not eof(f) or (filePos(f) <> tourNum)  do begin
+                readln;
+                read(f, tempTour);
+                write(fTemp, tempTour);
+                showTypeFile(fTemp);
+                writeln('**********')
         end;
 
-        writeln('Im here');
+        writeln('END');
+        readln;
         showTypeFile(fTemp);
         readln;
 
+        read(f, myTour);
+
+        case fieldNum of
+                1: myTour.country := change;
+                2: myTour.city := change;
+                3: myTour.residence := change;
+                4: myTour.class := change;
+                5: begin
+                        val(change, numTmp);
+                        myTour.price := numTmp;
+                end;
+                6: begin
+                        val(change, numTmp);
+                        myTour.vacancies := numTmp;
+                end;
+        end;
+        while not eof(f) do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
         seek(f, 0);
         truncate(f);
         while not eof(fTemp) do begin
                 read(fTemp, tempTour);
                 write(f, tempTour);
         end;
+        erase(fTemp);
         close(fTemp);
 end;
 
@@ -145,7 +150,7 @@ var
         ch: char;
         country, city, residence, class, change: sType;
         price: word;
-        vacancies, variant, changeNum: byte;
+        vacancies, variant, changeNum, fieldNum: byte;
 
 begin
         {Задачи:}
@@ -195,53 +200,56 @@ begin
                         end;
                         #52: begin
                                 clrscr;
-                                writeln('Shto budete izmenyat?');
+                                writeln('Kakoy tour hotite izmenit?');
+                                readln(changeNum);
+                                writeln('Kakoy parametr toura hotite izmenyat?');
                                 writeln('1 - country');
                                 writeln('2 - city');
                                 writeln('3 - residence');
                                 writeln('4 - type');
                                 writeln('5 - price');
                                 writeln('6 - vacancies');
+                                readln(variant);
                                 case variant of
                                         1: begin
                                                 clrscr;
                                                 writeln('Vvedite country:');
                                                 readln(change);
-                                                changeNum := 1;
+                                                fieldNum := 1;
                                         end;
                                         2: begin
                                                 clrscr;
                                                 writeln('Vvedite city:');
                                                 readln(change);
-                                                changeNum := 2;
+                                                fieldNum := 2;
                                         end;
                                         3: begin
                                                 clrscr;
                                                 writeln('Vvedite residence:');
                                                 readln(change);
-                                                changeNum := 3;
+                                                fieldNum := 3;
                                         end;
                                         4: begin
                                                 clrscr;
                                                 writeln('Vvedite type:');
                                                 readln(change);
-                                                changeNum := 4;
+                                                fieldNum := 4;
                                         end;
                                         5: begin
                                                 clrscr;
                                                 writeln('Vvedite price:');
                                                 readln(change);
-                                                changeNum := 5;
+                                                fieldNum := 5;
                                         end;
                                         6: begin
                                                 clrscr;
                                                 writeln('Vvedite vacncies:');
                                                 readln(change);
-                                                changeNum := 6;
+                                                fieldNum := 6;
                                         end;
                                 end;
                                 seek(f, 0);
-                                editTour(f, change, changeNum);
+                                editTour(f, change, changeNum, fieldNum);
                                 showBack;
                         end;
                         #48: begin
