@@ -15,17 +15,21 @@ type
 procedure showMenu;
 begin
         writeln('Vibirite optsiy:');
-        writeln('1 - Prochitat tekstoviy file');
-        writeln('2 - Prochitat tipizirovanyi file');
-        writeln('3 - Dobavit tour');
-        writeln('4 - Redaktirovat tour');
+        writeln('1 - prochitat tekstoviy file');
+        writeln('2 - zapisat v tekstoviy file');
+        writeln('3 - prochitat tipizirovanyi file');
+        writeln('4 - dobavit tour');
+        writeln('5 - redaktirovat tour');
+        writeln('6 - udalit tour');
+        writeln('7 - pokazat kommercheskiye');
+        writeln('8 - pokazat otdyha');
         writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
 end;
 
 procedure showBack;
 begin
         writeln('*********************************************');
-        writeln('Nazhmite klavishu 0, shtoby vernytsya v menu');
+        writeln('Nazhmite klavishu 0, shtoby pokazat menu');
         writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
 end;
 
@@ -137,9 +141,61 @@ begin
                 write(f, tempTour);
         end;
 
-        {как удалить в процедуре}
         close(fTemp);
         erase(fTemp);
+end;
+
+procedure delTour(var f: fTour; tourNum: byte);
+var
+        fTemp: fTour;
+        tempTour: tour;
+begin
+        assign(fTemp, 'temp.dat');
+        rewrite(fTemp);
+        while filePos(f) <> tourNum - 1  do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
+
+        seek(f, filePos(f) + 1);
+
+        while not eof(f) do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
+
+        seek(f, 0);
+        seek(fTemp, 0);
+        truncate(f);
+        while not eof(fTemp) do begin
+                read(fTemp, tempTour);
+                write(f, tempTour);
+        end;
+
+        close(fTemp);
+        erase(fTemp);
+end;
+
+procedure showCommercial(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                if (myTour.class = 'commercial') then
+                        showTour(myTour);
+        end;
+end;
+
+procedure showWellness(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                if (myTour.class = 'wellness') then
+                        showTour(myTour);
+        end;
 end;
 
 var
@@ -148,7 +204,7 @@ var
         ch: char;
         country, city, residence, class, change: sType;
         price: word;
-        vacancies, variant, changeNum, fieldNum: byte;
+        vacancies, variant, changeNum, delNum, fieldNum: byte;
 
 begin
         {Задачи:}
@@ -161,7 +217,6 @@ begin
         assign(f, 'tour-agency.dat');
         reset(t);
         rewrite(f);
-        fillTypeFile(t, f);
         showMenu;
         repeat
                 ch := readkey;
@@ -173,12 +228,18 @@ begin
                                 showBack;
                         end;
                         #50: begin
+                                reset(t);
+                                clrscr;
+                                fillTypeFile(t, f);
+                                showBack;
+                        end;
+                        #51: begin
                                 seek(f, 0);
                                 clrscr;
                                 showTypeFile(f);
                                 showBack;
                         end;
-                        #51: begin
+                        #52: begin
                                 clrscr;
                                 writeln('Enter the country of a tour:');
                                 readln(country);
@@ -196,7 +257,7 @@ begin
                                 addTour(f, country, city, residence, class, price, vacancies);
                                 showBack;
                         end;
-                        #52: begin
+                        #53: begin
                                 clrscr;
                                 writeln('Kakoy tour hotite izmenit?');
                                 readln(changeNum);
@@ -248,6 +309,26 @@ begin
                                 end;
                                 seek(f, 0);
                                 editTour(f, change, changeNum, fieldNum);
+                                showBack;
+                        end;
+                        #54: begin
+                                seek(f, 0);
+                                clrscr;
+                                writeln('Kakoy tour hotite udalit?');
+                                readln(delNum);
+                                delTour(f, delNum);
+                                showBack;
+                        end;
+                        #55: begin
+                                seek(f, 0);
+                                clrscr;
+                                showCommercial(f);
+                                showBack;
+                        end;
+                        #56: begin
+                                seek(f, 0);
+                                clrscr;
+                                showWellness(f);
                                 showBack;
                         end;
                         #48: begin
