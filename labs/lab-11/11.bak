@@ -101,21 +101,12 @@ var
 begin
         assign(fTemp, 'temp.dat');
         rewrite(fTemp);
-        while filePos(f) <> 1  do begin
-                readln;
+        while filePos(f) <> tourNum - 1  do begin
                 read(f, tempTour);
                 write(fTemp, tempTour);
-                showTypeFile(fTemp);
-                writeln('**********')
         end;
 
-        writeln('END');
-        readln;
-        showTypeFile(fTemp);
-        readln;
-
         read(f, myTour);
-
         case fieldNum of
                 1: myTour.country := change;
                 2: myTour.city := change;
@@ -130,18 +121,23 @@ begin
                         myTour.vacancies := numTmp;
                 end;
         end;
+
+        write(fTemp, myTour);
+
         while not eof(f) do begin
                 read(f, tempTour);
                 write(fTemp, tempTour);
         end;
+
         seek(f, 0);
+        seek(fTemp, 0);
         truncate(f);
         while not eof(fTemp) do begin
                 read(fTemp, tempTour);
                 write(f, tempTour);
         end;
+
         erase(fTemp);
-        close(fTemp);
 end;
 
 var
