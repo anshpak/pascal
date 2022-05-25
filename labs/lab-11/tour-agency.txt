@@ -10,3 +10,33 @@ Royal Albatros Moderna 5
 wellness
 1003
 1
+Italy
+Rom
+The Sun Hotel 5
+wellness
+2100
+4
+France
+Paris
+Eifel Tower Palace 5
+commercial
+1500
+8
+Belgium
+Brussel
+Night Shadows 5
+commercial
+900
+5
+Netherlands
+Rotterdam
+Green Valley 5
+wellness
+2205
+17
+Greece
+Athens
+Great Symphony 5
+commercial
+800
+7

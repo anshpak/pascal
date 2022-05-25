@@ -16,13 +16,14 @@ procedure showMenu;
 begin
         writeln('Vibirite optsiy:');
         writeln('1 - prochitat tekstoviy file');
-        writeln('2 - zapisat v tekstoviy file');
+        writeln('2 - zapisat v tipizirovaniy file');
         writeln('3 - prochitat tipizirovanyi file');
         writeln('4 - dobavit tour');
         writeln('5 - redaktirovat tour');
         writeln('6 - udalit tour');
         writeln('7 - pokazat kommercheskiye');
         writeln('8 - pokazat otdyha');
+        writeln('9 - try samih dorogix toura');
         writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
 end;
 
@@ -150,6 +151,7 @@ var
         fTemp: fTour;
         tempTour: tour;
 begin
+        seek(f, 0);
         assign(fTemp, 'temp.dat');
         rewrite(fTemp);
         while filePos(f) <> tourNum - 1  do begin
@@ -198,6 +200,50 @@ begin
         end;
 end;
 
+procedure popMaxPrice(var f: fTour);
+var
+        myTour, tempTour: tour;
+        imax : byte;
+begin
+        seek(f, 0);
+
+        read(f, tempTour);
+        myTour := tempTour;
+
+        while not eof(f) do begin
+                read(f, tempTour);
+                if (tempTour.price > myTour.price) then begin
+                        myTour := tempTour;
+                        imax := filePos(f);
+                end;
+        end;
+
+        showTour(myTour);
+        delTour(f, imax);
+end;
+
+procedure showExpensive(var f: fTour);
+var
+        myTour, tempTour: tour;
+        fTmp: fTour;
+        max, max1, max2: word;
+        imax, imax1, imax2: byte;
+begin
+        assign(fTmp, 'ftmp.dat');
+        rewrite(fTmp);
+        while not eof(f) do begin
+                read(f, tempTour);
+                write(fTmp, tempTour);
+        end;
+
+        popMaxPrice(fTmp);
+        popMaxPrice(fTmp);
+        popMaxPrice(fTmp);
+
+        close(fTmp);
+        erase(fTmp);
+end;
+
 var
         t: text;
         f: fTour;
@@ -207,11 +253,6 @@ var
         vacancies, variant, changeNum, delNum, fieldNum: byte;
 
 begin
-        {Задачи:}
-        {Выбрать коммерческие туры.
-        Выбрать туры отдыха.
-        Выбрать три самых дорогих тура.
-        Выбрать три самых дешевых тура.}
         clrscr;
         assign(t, 'tour-agency.txt');
         assign(f, 'tour-agency.dat');
@@ -330,6 +371,11 @@ begin
                                 clrscr;
                                 showWellness(f);
                                 showBack;
+                        end;
+                        #57: begin
+                                seek(f, 0);
+                                clrscr;
+                                showExpensive(f);
                         end;
                         #48: begin
                                 clrscr;
