@@ -131,11 +131,17 @@ begin
         bar(xCenter - whLnWdth, yLeft, xCenter + whLnWdth, yRight);
         bar(xLeft, yCenter - whLnWdth, xRight, yCenter + whLnWdth);
 
-        {SetFillStyle(SolidFill, White);
-        bar(XLeft, YLeft + dx * 2 + 1,XLeft + 5 * dx,YLeft + dx * 3);
+        {Центральные красные линии}
+        SetFillStyle(SolidFill, Red);
+        bar(xCenter - redLnWdth, yLeft, xCenter + redLnWdth, yRight);
+        bar(xLeft, yCenter - redLnWdth, xRight, yCenter + redLnWdth);
 
-        SetFillStyle(SolidFill, White);
-        bar(XLeft + dx * 2 + 1,YLeft, XLeft + 3 * dx,YLeft + dx * 5);}
+        {Прячу острые углы красных линий}
+        SetFillStyle(SolidFill, Black);
+        bar(xLeft - whLnWdth, yLeft + whLnWdth, xLeft, yLeft);
+        bar(xLeft - whLnWdth, yLeft - whLnWdth, xLeft, yLeft);
+        bar(xLeft + whLnWdth, yLeft + whLnWdth, xLeft, yLeft);
+        bar(xLeft + whLnWdth, yLeft - whLnWdth, xLeft, yLeft);
 end;
 
 var
@@ -145,11 +151,15 @@ begin
         gm := 2;
         initgraph(gd, gm, '');
 
+        {SetFillStyle(SolidFill, LightGray);
+        bar(XLeft - 15, 20, XLeft - 5 , YLeft + 150);
+        Size := ImageSize(XLeft, YLeft, XLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx);
+        GetMem(Picture, Size);}
+        Flag(XLeft, YLeft,  dx);
         SetFillStyle(SolidFill, LightGray);
         bar(XLeft - 15, 20, XLeft - 5 , YLeft + 150);
         Size := ImageSize(XLeft, YLeft, XLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx);
         GetMem(Picture, Size);
-        Flag(XLeft, YLeft,  dx);
         {GetImage(XLeft, YLeft, XLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx, Picture^);
         str(size, st);
         outtextxy(20, 20, st);
