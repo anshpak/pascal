@@ -118,22 +118,20 @@ begin
         redPts[3] := xCenter;
         redPts[4] := yCenter;
         redPts[5] := xCenter + redLnWdth;
-        redPts[6] := yCenter + redLnWdth;
+        redPts[6] := yCenter - redLnWdth;
         redPts[7] := xRight + redLnWdth;
-        redPts[8] := yRight + redLnWdth;
+        redPts[8] := yRight - redLnWdth;
         redPts[9] := xRight;
         redPts[10] := yRight;
 
         FillPoly(nRed, redPts);
 
-        {SetFillStyle(SolidFill, White);
-        for i:= 1 to 4 do
-                bar(XLeft, YLeft + dx * (2 * i - 1) + 1, XLeft + 9 * dx  div 2 * 3 , YLeft + dx * (2 * i));
-
-        SetFillStyle(SolidFill, Blue);
-        bar(XLeft, YLeft, XLeft + 5 * dx, YLeft + 5 * dx);
-
+        {Центральные белые линии}
         SetFillStyle(SolidFill, White);
+        bar(xCenter - whLnWdth, yLeft, xCenter + whLnWdth, yRight);
+        bar(xLeft, yCenter - whLnWdth, xRight, yCenter + whLnWdth);
+
+        {SetFillStyle(SolidFill, White);
         bar(XLeft, YLeft + dx * 2 + 1,XLeft + 5 * dx,YLeft + dx * 3);
 
         SetFillStyle(SolidFill, White);
