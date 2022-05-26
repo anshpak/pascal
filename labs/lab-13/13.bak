@@ -74,7 +74,7 @@ begin
         redPts[2] := yLeft;
         redPts[3] := xCenter;
         redPts[4] := yCenter;
-        redPts[5] := xCenter;
+        redPts[5] := xCenter - redLnWdth;
         redPts[6] := yCenter + redLnWdth;
         redPts[7] := xLeft - redLnWdth;
         redPts[8] := yLeft + redLnWdth;
@@ -89,30 +89,42 @@ begin
         redPts[2] := yLeft;
         redPts[3] := xCenter;
         redPts[4] := yCenter;
-        redPts[5] := xCenter;
+        redPts[5] := xCenter - redLnWdth;
         redPts[6] := yCenter - redLnWdth;
-        redPts[7] := xRight + redLnWdth;
+        redPts[7] := xRight - redLnWdth;
         redPts[8] := yLeft - redLnWdth;
         redPts[9] := xRight;
         redPts[10] := yLeft;
 
-        setFillStyle(SolidFill, Red);
         FillPoly(nRed, redPts);
 
         {Третья красная линия}
-        {redPts[1] := xCenter;
-        redPts[2] := yCenter;
-        redPts[3] := xLeft;
-        redPts[4] := yRight - redLnWdth;
-        redPts[5] := xLeft;
-        redPts[6] := yRight;
-        redPts[7] := xCenter;
-        redPts[8] := yCenter + redLnWdth + 3; {Подбором}
-        {redPts[9] := xCenter;
-        redPts[10] := yCenter;
+        redPts[1] := xLeft;
+        redPts[2] := yRight;
+        redPts[3] := xCenter;
+        redPts[4] := yCenter;
+        redPts[5] := xCenter + redLnWdth;
+        redPts[6] := yCenter + redLnWdth;
+        redPts[7] := xLeft + redLnWdth;
+        redPts[8] := yRight + redLnWdth;
+        redPts[9] := xLeft;
+        redPts[10] := yRight;
 
-        setFillStyle(SolidFill, Red);
-        FillPoly(nRed, redPts);}
+        FillPoly(nRed, redPts);
+
+        {Четвертая красная линия}
+        redPts[1] := xRight;
+        redPts[2] := yRight;
+        redPts[3] := xCenter;
+        redPts[4] := yCenter;
+        redPts[5] := xCenter + redLnWdth;
+        redPts[6] := yCenter + redLnWdth;
+        redPts[7] := xRight + redLnWdth;
+        redPts[8] := yRight + redLnWdth;
+        redPts[9] := xRight;
+        redPts[10] := yRight;
+
+        FillPoly(nRed, redPts);
 
         {SetFillStyle(SolidFill, White);
         for i:= 1 to 4 do
