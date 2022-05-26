@@ -2,7 +2,7 @@ Program therteenthLab;
 uses graph, crt;
 const
         xLeft = 200;
-        yLeft = 300;
+        yLeft : word = 300;
         dx = 12;
         dMove = 50;
         nWhite = 7;
@@ -10,10 +10,6 @@ const
 type
         whiteLine = array[1..nWhite * 2] of word;
         redLine = array[1..nRed * 2] of word;
-var
-        gd, gm: integer;
-        size: longint;
-        picture: pointer;
 
 procedure flag (xLeft, yLeft: word; dx: word);
 const
@@ -47,7 +43,7 @@ begin
         whitePts[14] := yLeft;
 
         setFillStyle(SolidFill, White);
-        FillPoly(nWhite, whitePts);
+        fillPoly(nWhite, whitePts);
 
         {Вторая белая линия}
         whitePts[1] := xLeft;
@@ -65,7 +61,7 @@ begin
         whitePts[13] := xLeft;
         whitePts[14] := yRIght;
 
-        FillPoly(nWhite, whitePts);
+        fillPoly(nWhite, whitePts);
 
         {Первая красная линия}
         xCenter := xLeft + (xRight - xLeft) div 2;
@@ -82,7 +78,7 @@ begin
         redPts[10] := yLeft;
 
         setFillStyle(SolidFill, Red);
-        FillPoly(nRed, redPts);
+        fillPoly(nRed, redPts);
 
         {Вторая красная линия}
         redPts[1] := xRight;
@@ -96,7 +92,7 @@ begin
         redPts[9] := xRight;
         redPts[10] := yLeft;
 
-        FillPoly(nRed, redPts);
+        fillPoly(nRed, redPts);
 
         {Третья красная линия}
         redPts[1] := xLeft;
@@ -110,7 +106,7 @@ begin
         redPts[9] := xLeft;
         redPts[10] := yRight;
 
-        FillPoly(nRed, redPts);
+        fillPoly(nRed, redPts);
 
         {Четвертая красная линия}
         redPts[1] := xRight;
@@ -124,20 +120,21 @@ begin
         redPts[9] := xRight;
         redPts[10] := yRight;
 
-        FillPoly(nRed, redPts);
+        fillPoly(nRed, redPts);
 
         {Центральные белые линии}
-        SetFillStyle(SolidFill, White);
+        setFillStyle(SolidFill, White);
         bar(xCenter - whLnWdth, yLeft, xCenter + whLnWdth, yRight);
         bar(xLeft, yCenter - whLnWdth, xRight, yCenter + whLnWdth);
 
         {Центральные красные линии}
-        SetFillStyle(SolidFill, Red);
-        bar(xCenter - redLnWdth, yLeft, xCenter + redLnWdth, yRight);
-        bar(xLeft, yCenter - redLnWdth, xRight, yCenter + redLnWdth);
+        setFillStyle(SolidFill, Red);
+        {Добавил размер от себя}
+        bar(xCenter - redLnWdth - 2, yLeft, xCenter + redLnWdth + 2, yRight);
+        bar(xLeft, yCenter - redLnWdth - 2, xRight, yCenter + redLnWdth + 2);
 
         {Прячу острые углы красных линий}
-        SetFillStyle(SolidFill, Black);
+        setFillStyle(SolidFill, Black);
         bar(xLeft - whLnWdth, yLeft + whLnWdth, xLeft, yLeft);
         bar(xRight - whLnWdth, yLeft - whLnWdth, xRight, yLeft);
         bar(xLeft + whLnWdth, yRight + whLnWdth, xLeft, yRight);
@@ -145,33 +142,40 @@ begin
 end;
 
 var
-        st:string;
+        gd, gm: integer;
+        size: longint;
+        picture: pointer;
+        xRight, yRight: word;
 begin
         gd := 9;
         gm := 2;
         initgraph(gd, gm, '');
+        flag(xLeft, yLeft, dx);
+        setFillStyle(SolidFill, LightGray);
+        bar(xLeft - 15, 20, xLeft - 5 , yLeft + 150);
 
-        {SetFillStyle(SolidFill, LightGray);
-        bar(XLeft - 15, 20, XLeft - 5 , YLeft + 150);
-        Size := ImageSize(XLeft, YLeft, XLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx);
-        GetMem(Picture, Size);}
-        Flag(XLeft, YLeft,  dx);
-        SetFillStyle(SolidFill, LightGray);
-        bar(XLeft - 15, 20, XLeft - 5 , YLeft + 150);
-        Size := ImageSize(XLeft, YLeft, XLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx);
-        GetMem(Picture, Size);
-        {GetImage(XLeft, YLeft, XLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx, Picture^);
-        str(size, st);
-        outtextxy(20, 20, st);
-        PutImage(XLeft, YLeft, Picture^, 0);
-        delay(75*2);
-        while YLeft  > 50  do begin
-                PutImage(XLeft, YLeft, Picture^, xorPut);
+
+        size := imageSize(xLeft, yLeft, xLeft + 9 * dx  div 2 * 3, yLeft + 9 * dx);
+        getMem(picture, size);
+        getImage(xLeft, yLeft, xLeft + 9 * dx  div 2 * 3, yLeft + 9 * dx, Picture^);
+        putImage(xLeft, yLeft, Picture^, 0);
+        while yLeft  > 50  do begin
+                putImage(xLeft, yLeft, Picture^, xorPut);
+                yLeft := yleft - dMove;
+                putImage(xLeft, yLeft, Picture^, xorPut);
+    end;
+
+
+
+        {while YLeft  > 50  do begin
                 outtextxy(20, yleft, 'Ok');
-
-                YLeft := Yleft - dMove;
-                PutImage(XLeft, YLeft, Picture^, xorput);
-                delay(500);
+                delay(100);
+                setFillStyle(SolidFill, 0);
+                bar(xLeft, yLeft, xLeft + 9 * dx  div 2 * 3 ,YLeft + 9 * dx);
+                yLeft := yleft - dMove;
+                flag(xLeft, yLeft,  dx);
+                setFillStyle(SolidFill, LightGray);
+                bar(xLeft - 15, 20, xLeft - 5 , yLeft + 150);
         end;}
         readln;
 end.
