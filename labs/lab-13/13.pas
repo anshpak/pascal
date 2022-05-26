@@ -26,6 +26,7 @@ begin
         setFillStyle(SolidFill, Blue);
         bar(xLeft, yLeft, xRight, yRight);
 
+        {Первая белая линия}
         points[1] := xLeft;
         points[2] := yLeft;
         points[3] := xLeft + whLnWdth;
@@ -44,24 +45,25 @@ begin
         setFillStyle(SolidFill, White);
         FillPoly(7, points);
 
+        {Вторая белая линия}
+        points[1] := xLeft;
+        points[2] := yRight;
+        points[3] := xLeft;
+        points[4] := yRight - whLnWdth;
+        points[5] := xRight - whLnWdth;
+        points[6] := yLeft;
+        points[7] := xRight;
+        points[8] := yLeft;
+        points[9] := xRight;
+        points[10] := yLeft + whLnWdth;
+        points[11] := xLeft + whLnWdth;
+        points[12] := yRight;
+        points[13] := xLeft;
+        points[14] := yRIght;
+
+        FillPoly(7, points);
+
         {mas[1] := XLeft;
-        mas[2] := YLeft + 9 * dx;
-        mas[3] := XLeft;
-        mas[4] := YLeft + 9 * dx - 7;
-        mas[5] := XLeft + 9 * dx  div 2 * 3 - 7;
-        mas[6] := YLeft;
-        mas[7] := XLeft + 9 * dx  div 2 * 3;
-        mas[8] := YLeft;
-        mas[9] := XLeft + 9 * dx  div 2 * 3;
-        mas[10] := YLeft + 7;
-        mas[11] := XLeft + 7;
-        mas[12] := YLeft + 9 * dx;
-        mas[13] := XLeft;
-        mas[14] := YLeft + 9 * dx;
-
-        FillPoly(7, mas);
-
-        mas[1] := XLeft;
         mas[2] := YLeft;
         mas[3] := (XLeft + 9 * dx  div 2 * 3) ;
         mas[4] := (YLeft + 9 * dx) ;

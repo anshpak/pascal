@@ -14,28 +14,30 @@ const
         dMove : word = 50;
 
 procedure flag (xLeft, yLeft: word; dx: word);
+const
+        whLnWdth = 7;
 var
         i, xRight, yRight: word;
         points: figure;
 begin
         clrscr;
-        xRight := xLeft + 9 * dx div 2;
+        xRight := xLeft + 9 * dx div 2 * 3;
         yRight := yLeft + 9 * dx;
         setFillStyle(SolidFill, Blue);
         bar(xLeft, yLeft, xRight, yRight);
 
         points[1] := xLeft;
         points[2] := yLeft;
-        points[3] := xLeft + 7;
+        points[3] := xLeft + whLnWdth;
         points[4] := yLeft;
         points[5] := xRight;
-        points[6] := yRight - 7;
+        points[6] := yRight - whLnWdth;
         points[7] := xRight;
         points[8] := yRight;
-        points[9] := xRight - 7;
+        points[9] := xRight - whLnWdth;
         points[10] := yRight;
         points[11] := xLeft;
-        points[12] := yLeft + 7;
+        points[12] := yLeft + whLnWdth;
         points[13] := xLeft;
         points[14] := yLeft;
 
