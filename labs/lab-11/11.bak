@@ -200,6 +200,28 @@ begin
         end;
 end;
 
+procedure popMaxPrice(var f: fTour);
+var
+        myTour, tempTour: tour;
+        imax : byte;
+begin
+        seek(f, 0);
+
+        read(f, tempTour);
+        myTour := tempTour;
+
+        while not eof(f) do begin
+                read(f, tempTour);
+                if (tempTour.price > myTour.price) then begin
+                        myTour := tempTour;
+                        imax := filePos(f);
+                end;
+        end;
+
+        showTour(myTour);
+        delTour(f, imax);
+end;
+
 procedure showExpensive(var f: fTour);
 var
         myTour, tempTour: tour;
@@ -214,56 +236,9 @@ begin
                 write(fTmp, tempTour);
         end;
 
-        seek(fTmp, 0);
-
-        read(fTmp, tempTour);
-        myTour := tempTour;
-
-        while not eof(fTmp) do begin
-                read(fTmp, tempTour);
-                if (tempTour.price > myTour.price) then begin
-                        myTour := tempTour;
-                        imax := filePos(fTmp);
-                end;
-        end;
-
-        showTour(myTour);
-
-        delTour(fTmp, imax);
-
-        seek(fTmp, 0);
-
-        read(fTmp, tempTour);
-        myTour := tempTour;
-
-        while not eof(fTmp) do begin
-                read(fTmp, tempTour);
-                if (tempTour.price > myTour.price) then begin
-                        myTour := tempTour;
-                        imax := filePos(fTmp);
-                end;
-        end;
-
-        showTour(myTour);
-
-        delTour(fTmp, imax);
-
-        seek(fTmp, 0);
-
-        read(fTmp, tempTour);
-        myTour := tempTour;
-
-        while not eof(fTmp) do begin
-                read(fTmp, tempTour);
-                if (tempTour.price > myTour.price) then begin
-                        myTour := tempTour;
-                        imax := filePos(fTmp);
-                end;
-        end;
-
-        showTour(myTour);
-
-        delTour(fTmp, imax);
+        popMaxPrice(fTmp);
+        popMaxPrice(fTmp);
+        popMaxPrice(fTmp);
 
         close(fTmp);
         erase(fTmp);

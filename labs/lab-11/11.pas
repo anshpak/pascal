@@ -15,15 +15,14 @@ type
 procedure showMenu;
 begin
         writeln('Vibirite optsiy:');
-        writeln('1 - prochitat tekstoviy file');
-        writeln('2 - zapisat v tipizirovaniy file');
-        writeln('3 - prochitat tipizirovanyi file');
-        writeln('4 - dobavit tour');
-        writeln('5 - redaktirovat tour');
-        writeln('6 - udalit tour');
-        writeln('7 - pokazat kommercheskiye');
-        writeln('8 - pokazat otdyha');
-        writeln('9 - try samih dorogix toura');
+        writeln('1 - zapisat v tipizirovaniy file');
+        writeln('2 - prochitat tipizirovanyi file');
+        writeln('3 - dobavit tour');
+        writeln('4 - redaktirovat tour');
+        writeln('5 - udalit tour');
+        writeln('6 - pokazat kommercheskiye');
+        writeln('7 - pokazat otdyha');
+        writeln('8 - try samih dorogix toura');
         writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
 end;
 
@@ -44,6 +43,7 @@ begin
         write(myTour.vacancies, '.', #10#13);
 end;
 
+{Для отладки}
 procedure showTextFile(var t: text);
 var
         myTour: tour;
@@ -265,22 +265,16 @@ begin
                         #49: begin
                                 reset(t);
                                 clrscr;
-                                showTextFile(t);
-                                showBack;
-                        end;
-                        #50: begin
-                                reset(t);
-                                clrscr;
                                 fillTypeFile(t, f);
                                 showBack;
                         end;
-                        #51: begin
+                        #50: begin
                                 seek(f, 0);
                                 clrscr;
                                 showTypeFile(f);
                                 showBack;
                         end;
-                        #52: begin
+                        #51: begin
                                 clrscr;
                                 writeln('Enter the country of a tour:');
                                 readln(country);
@@ -298,7 +292,7 @@ begin
                                 addTour(f, country, city, residence, class, price, vacancies);
                                 showBack;
                         end;
-                        #53: begin
+                        #52: begin
                                 clrscr;
                                 writeln('Kakoy tour hotite izmenit?');
                                 readln(changeNum);
@@ -352,7 +346,7 @@ begin
                                 editTour(f, change, changeNum, fieldNum);
                                 showBack;
                         end;
-                        #54: begin
+                        #53: begin
                                 seek(f, 0);
                                 clrscr;
                                 writeln('Kakoy tour hotite udalit?');
@@ -360,19 +354,19 @@ begin
                                 delTour(f, delNum);
                                 showBack;
                         end;
-                        #55: begin
+                        #54: begin
                                 seek(f, 0);
                                 clrscr;
                                 showCommercial(f);
                                 showBack;
                         end;
-                        #56: begin
+                        #55: begin
                                 seek(f, 0);
                                 clrscr;
                                 showWellness(f);
                                 showBack;
                         end;
-                        #57: begin
+                        #56: begin
                                 seek(f, 0);
                                 clrscr;
                                 showExpensive(f);
