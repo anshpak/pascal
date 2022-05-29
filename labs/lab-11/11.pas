@@ -122,13 +122,15 @@ begin   textBackground(Yellow);
                                 showMenu;
                         end;
                         #51: begin
-                                clrscr;
+                                secondWin;
                                 writeln('Kakoy tur hotite izmenit?');
                                 readln(changeNum);
                                 while (changeNum < 1) or (changeNum > n) do begin
-                                        writeln('Vybirite tur ot 1 do ', n);
+                                        clrscr;
+                                        writeln('Nuzhno vybrat tur ot 1 do ', n);
                                         readln(changeNum);
                                 end;
+                                clrscr;
                                 writeln('Kakoy parametr tura hotite izmenit?');
                                 writeln('1 - strana');
                                 writeln('2 - gorod');
@@ -177,19 +179,26 @@ begin   textBackground(Yellow);
                                 end;
                                 seek(f, 0);
                                 editTour(f, change, changeNum, fieldNum);
-                                showBack;
+                                clrscr;
+                                writeln('Tur uspeshno otredactirovan!');
+                                firstWin;
+                                showMenu;
                         end;
                         #52: begin
+                                secondWin;
                                 seek(f, 0);
-                                clrscr;
                                 writeln('Kakoy tur hotite udalit?');
                                 readln(delNum);
                                 while (delNum < 1) or (delNum > n) do begin
-                                        writeln('Vybirite tur ot 1 do ', n);
+                                        clrscr;
+                                        writeln('Nuzhno vybirat tur ot 1 do ', n);
                                         readln(delNum);
                                 end;
                                 delTour(f, delNum);
-                                showBack;
+                                clrscr;
+                                writeln('Tur byl udalen!');
+                                firstWin;
+                                showMenu;
                         end;
                         #53: begin
                                 seek(f, 0);
