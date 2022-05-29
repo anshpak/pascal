@@ -42,13 +42,17 @@ begin
 end;
 
 procedure showTour(var myTour: tour);
+var
+        st1, st2: string;
 begin
-        write(myTour.country, '. ');
-        write(myTour.city, '. ');
-        write(myTour.residence, '. ');
-        write(myTour.class, '. ');
-        write(myTour.price, '$. ');
-        write(myTour.vacancies, '.', #10#13);
+        str(myTour.price, st1);
+        str(myTour.vacancies, st2);
+        write(myTour.country, ' ':15 - length(myTour.country));
+        write(myTour.city, ' ':16 - length(myTour.city));
+        write(' ':5, myTour.residence, ' ':22 - length(myTour.residence));
+        write(' ':5, myTour.class, ' ':11 - length(myTour.class));
+        write(' ':5, myTour.price, '$', ' ':8 - length(st1));
+        write(' ':5, myTour.vacancies,' ':4 - length(st2), #10#13);
 end;
 
 {Для отладки}

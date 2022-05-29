@@ -14,7 +14,6 @@ type
         fTour = file of tour;
 
 procedure showMenu;
-procedure showBack;
 procedure showTour(var myTour: tour);
 procedure showTextFile(var t: text);
 procedure showTypeFile(var f: fTour);
@@ -42,21 +41,18 @@ begin
         writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
 end;
 
-procedure showBack;
-begin
-        writeln('*********************************************');
-        writeln('Nazhmite klavishu 0, shtoby pokazat menu');
-        writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
-end;
-
 procedure showTour(var myTour: tour);
+var
+        st1, st2: string;
 begin
-        write(myTour.country, '. ');
-        write(myTour.city, '. ');
-        write(myTour.residence, '. ');
-        write(myTour.class, '. ');
-        write(myTour.price, '$. ');
-        write(myTour.vacancies, '.', #10#13);
+        str(myTour.price, st1);
+        str(myTour.vacancies, st2);
+        write(myTour.country, ' ':15 - length(myTour.country));
+        write(myTour.city, ' ':16 - length(myTour.city));
+        write(' ':5, myTour.residence, ' ':20 - length(myTour.residence));
+        write(' ':5, myTour.class, ' ':11 - length(myTour.class));
+        write(' ':5, myTour.price, '$', ' ':8 - length(st1));
+        write(' ':5, myTour.vacancies,' ':4 - length(st2), #10#13);
 end;
 
 {Для отладки}
