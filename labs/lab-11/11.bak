@@ -1,246 +1,70 @@
 program eleventhLab;
-uses crt;
+uses crt, tourAgency;
+const
+        maxwin = 3;
 type
-        sType = string[30];
-        tour = record
-                country: sType; {Страна}
-                city: sType; {Город}
-                residence: sType; {Место проживания (отель или дом отдыха)}
-                class: sType; {Характер тура (коммерческий, оздоровительный и т. д.)}
-                price: word; {Цена}
-                vacancies: byte; {Количество свободных мест}
-        end;
-        fTour = file of tour;
-
-procedure showMenu;
-begin
-        writeln('Vibirite optsiy:');
-        writeln('1 - pokazat vse tury');
-        writeln('2 - dobavit tur');
-        writeln('3 - redaktirovat tur');
-        writeln('4 - udalit tur');
-        writeln('5 - pokazat vse kommercheskiye tury');
-        writeln('6 - pokazat vse tury otdyha');
-        writeln('7 - pokazat 3 samih dorogih tura');
-        writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
-end;
-
-procedure showBack;
-begin
-        writeln('*********************************************');
-        writeln('Nazhmite klavishu 0, shtoby pokazat menu');
-        writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
-end;
-
-procedure showTour(var myTour: tour);
-begin
-        write(myTour.country, '. ');
-        write(myTour.city, '. ');
-        write(myTour.residence, '. ');
-        write(myTour.class, '. ');
-        write(myTour.price, '$. ');
-        write(myTour.vacancies, '.', #10#13);
-end;
-
-{Для отладки}
-procedure showTextFile(var t: text);
-var
-        myTour: tour;
-        i: byte;
-begin
-        while not eof(t) do begin
-                readln(t, myTour.country);
-                readln(t, myTour.city);
-                readln(t, myTour.residence);
-                readln(t, myTour.class);
-                readln(t, myTour.price);
-                readln(t, myTour.vacancies);
-                showTour(myTour);
-        end;
-end;
-
-procedure showTypeFile(var f: fTour);
-var
-        myTour: tour;
-begin
-        while not eof(f) do begin
-                read(f, myTour);
-                showTour(myTour);
-        end;
-end;
-
-procedure fillTypeFile(var t: text; var f: fTour);
-var
-        myTour: tour;
-begin
-        while not eof(t) do begin
-                readln(t, myTour.country);
-                readln(t, myTour.city);
-                readln(t, myTour.residence);
-                readln(t, myTour.class);
-                readln(t, myTour.price);
-                readln(t, myTour.vacancies);
-                write(f, myTour);
-        end;
-end;
-
-procedure addTour(var f: fTour; country, city, residence, class: sType; price: word; vacancies: byte);
-var
-        myTour: tour;
-begin
-        myTour.country := country;
-        myTour.city := city;
-        myTour.residence := residence;
-        myTour.class := class;
-        myTour.price := price;
-        myTour.vacancies := vacancies;
-        write(f, myTour);
-end;
-
-procedure editTour(var f: fTour; change: sType; tourNum, fieldNum: byte);
-var
-        myTour, tempTour: tour;
-        fTemp: fTour;
-        numTmp: integer;
-begin
-        assign(fTemp, 'temp.dat');
-        rewrite(fTemp);
-        while filePos(f) <> tourNum - 1  do begin
-                read(f, tempTour);
-                write(fTemp, tempTour);
-        end;
-
-        read(f, myTour);
-        case fieldNum of
-                1: myTour.country := change;
-                2: myTour.city := change;
-                3: myTour.residence := change;
-                4: myTour.class := change;
-                5: begin
-                        val(change, numTmp);
-                        myTour.price := numTmp;
+        winrecord = record
+                xl, yl, xr, yr: byte
                 end;
-                6: begin
-                        val(change, numTmp);
-                        myTour.vacancies := numTmp;
-                end;
-        end;
+        tmw = array[1..maxwin] of winrecord;
+const
+        win1: tmw = ((xl: 13; yl: 4; xr: 115; yr: 13),
+                (xl: 9; yl: 2; xr: 111; yr: 12),
+                (xl: 10; yl: 3; xr: 110; yr: 11));
+        win2: tmw = ((xl: 13; yl: 17; xr: 115; yr: 29),
+                (xl: 9; yl: 15; xr: 111; yr: 28),
+                (xl: 10; yl: 16; xr: 110; yr: 27));
 
-        write(fTemp, myTour);
+procedure firstWin;
+begin
+        {Тень первого окна}
+        with win1[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
 
-        while not eof(f) do begin
-                read(f, tempTour);
-                write(fTemp, tempTour);
-        end;
+        {обводка первого окна}
+        with win1[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+        textColor(Black);
+        write(' Tour Agency');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':90);
 
-        seek(f, 0);
-        seek(fTemp, 0);
-        truncate(f);
-        while not eof(fTemp) do begin
-                read(fTemp, tempTour);
-                write(f, tempTour);
-        end;
-
-        close(fTemp);
-        erase(fTemp);
+        {Первое окно}
+        with win1[3] do
+                window(xl, yl, xr, yr);
+        textBackground(LightCyan);
+        clrscr;
+        textColor(Black);
 end;
 
-procedure delTour(var f: fTour; tourNum: byte);
-var
-        fTemp: fTour;
-        tempTour: tour;
+procedure secondWin;
 begin
-        seek(f, 0);
-        assign(fTemp, 'temp.dat');
-        rewrite(fTemp);
-        while filePos(f) <> tourNum - 1  do begin
-                read(f, tempTour);
-                write(fTemp, tempTour);
-        end;
+        {Тень второго окна}
+        with win2[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
 
-        seek(f, filePos(f) + 1);
+        {обводка второго окна}
+        with win2[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+        textColor(Black);
+        write(' Result');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':95);
 
-        while not eof(f) do begin
-                read(f, tempTour);
-                write(fTemp, tempTour);
-        end;
-
-        seek(f, 0);
-        seek(fTemp, 0);
-        truncate(f);
-        while not eof(fTemp) do begin
-                read(fTemp, tempTour);
-                write(f, tempTour);
-        end;
-
-        close(fTemp);
-        erase(fTemp);
-end;
-
-procedure showCommercial(var f: fTour);
-var
-        myTour: tour;
-begin
-        while not eof(f) do begin
-                read(f, myTour);
-                if (myTour.class = 'commercial') then
-                        showTour(myTour);
-        end;
-end;
-
-procedure showWellness(var f: fTour);
-var
-        myTour: tour;
-begin
-        while not eof(f) do begin
-                read(f, myTour);
-                if (myTour.class = 'wellness') then
-                        showTour(myTour);
-        end;
-end;
-
-procedure popMaxPrice(var f: fTour);
-var
-        myTour, tempTour: tour;
-        imax : byte;
-begin
-        seek(f, 0);
-
-        read(f, tempTour);
-        myTour := tempTour;
-
-        while not eof(f) do begin
-                read(f, tempTour);
-                if (tempTour.price > myTour.price) then begin
-                        myTour := tempTour;
-                        imax := filePos(f);
-                end;
-        end;
-
-        showTour(myTour);
-        delTour(f, imax);
-end;
-
-procedure showExpensive(var f: fTour);
-var
-        myTour, tempTour: tour;
-        fTmp: fTour;
-        max, max1, max2: word;
-        imax, imax1, imax2: byte;
-begin
-        assign(fTmp, 'ftmp.dat');
-        rewrite(fTmp);
-        while not eof(f) do begin
-                read(f, tempTour);
-                write(fTmp, tempTour);
-        end;
-
-        popMaxPrice(fTmp);
-        popMaxPrice(fTmp);
-        popMaxPrice(fTmp);
-
-        close(fTmp);
-        erase(fTmp);
+        {Второе окно}
+        with win2[3] do
+                window(xl, yl, xr, yr);
+        textBackground(LightCyan);
+        clrscr;
+        textColor(Black);
 end;
 
 var
@@ -251,41 +75,49 @@ var
         price: word;
         vacancies, n, variant, changeNum, delNum, fieldNum: byte;
 
-begin
+begin   textBackground(Yellow);
         clrscr;
         assign(t, 'tour-agency.txt');
         assign(f, 'tour-agency.dat');
         reset(t);
         rewrite(f);
         fillTypeFile(t, f); {Копирую все данные из текстового в типизированный файл}
+        firstWin;
         showMenu;
         repeat
                 n := filesize(f);
                 ch := readkey;
                 case ch of
                         #49: begin
-                                clrscr;
                                 seek(f, 0);
+                                secondWin;
                                 showTypeFile(f);
-                                showBack;
+                                firstWin;
+                                showMenu;
                         end;
                         #50: begin
-                                clrscr;
+                                secondWin;
                                 writeln('Vvedite stranu:');
                                 readln(country);
+                                clrscr;
                                 writeln('Vvedite gorod:');
                                 readln(city);
+                                clrscr;
                                 writeln('Vvedite mesto prozhivaniya:');
                                 readln(residence);
+                                clrscr;
                                 writeln('Vvedite tip (wellnes, commercial):');
                                 readln(class);
+                                clrscr;
                                 writeln('Vvedite tsenu:');
                                 readln(price);
+                                clrscr;
                                 writeln('Vvedite kolichestvo svobodnyh mest:');
                                 readln(vacancies);
                                 seek(f, n);
                                 addTour(f, country, city, residence, class, price, vacancies);
-                                showBack;
+                                firstWin;
+                                showMenu;
                         end;
                         #51: begin
                                 clrscr;

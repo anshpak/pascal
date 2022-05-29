@@ -1,5 +1,71 @@
 program eleventhLab;
 uses crt, tourAgency;
+const
+        maxwin = 3;
+type
+        winrecord = record
+                xl, yl, xr, yr: byte
+                end;
+        tmw = array[1..maxwin] of winrecord;
+const
+        win1: tmw = ((xl: 13; yl: 4; xr: 115; yr: 13),
+                (xl: 9; yl: 2; xr: 111; yr: 12),
+                (xl: 10; yl: 3; xr: 110; yr: 11));
+        win2: tmw = ((xl: 13; yl: 17; xr: 115; yr: 29),
+                (xl: 9; yl: 15; xr: 111; yr: 28),
+                (xl: 10; yl: 16; xr: 110; yr: 27));
+
+procedure firstWin;
+begin
+        {Тень первого окна}
+        with win1[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
+
+        {обводка первого окна}
+        with win1[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+        textColor(Black);
+        write(' Tour Agency');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':90);
+
+        {Первое окно}
+        with win1[3] do
+                window(xl, yl, xr, yr);
+        textBackground(LightCyan);
+        clrscr;
+        textColor(Black);
+end;
+
+procedure secondWin;
+begin
+        {Тень второго окна}
+        with win2[1] do
+                window(xl, yl, xr, yr);
+        textBackground(DarkGray);
+        clrscr;
+
+        {обводка второго окна}
+        with win2[2] do
+                window(xl, yl, xr, yr);
+        textBackground(White);
+        clrscr;
+        textColor(Black);
+        write(' Result');
+        {Если изменить размер окон, вручную придется менять вывод этих точек.}
+        write('...':95);
+
+        {Второе окно}
+        with win2[3] do
+                window(xl, yl, xr, yr);
+        textBackground(LightCyan);
+        clrscr;
+        textColor(Black);
+end;
 
 var
         t: text;
@@ -9,41 +75,51 @@ var
         price: word;
         vacancies, n, variant, changeNum, delNum, fieldNum: byte;
 
-begin
+begin   textBackground(Yellow);
         clrscr;
         assign(t, 'tour-agency.txt');
         assign(f, 'tour-agency.dat');
         reset(t);
         rewrite(f);
         fillTypeFile(t, f); {Копирую все данные из текстового в типизированный файл}
+        firstWin;
         showMenu;
         repeat
                 n := filesize(f);
                 ch := readkey;
                 case ch of
                         #49: begin
-                                clrscr;
                                 seek(f, 0);
+                                secondWin;
                                 showTypeFile(f);
-                                showBack;
+                                firstWin;
+                                showMenu;
                         end;
                         #50: begin
-                                clrscr;
+                                secondWin;
                                 writeln('Vvedite stranu:');
                                 readln(country);
+                                clrscr;
                                 writeln('Vvedite gorod:');
                                 readln(city);
+                                clrscr;
                                 writeln('Vvedite mesto prozhivaniya:');
                                 readln(residence);
+                                clrscr;
                                 writeln('Vvedite tip (wellnes, commercial):');
                                 readln(class);
+                                clrscr;
                                 writeln('Vvedite tsenu:');
                                 readln(price);
+                                clrscr;
                                 writeln('Vvedite kolichestvo svobodnyh mest:');
                                 readln(vacancies);
+                                clrscr;
+                                writeln('Tur uspeshno dobavlen!');
                                 seek(f, n);
                                 addTour(f, country, city, residence, class, price, vacancies);
-                                showBack;
+                                firstWin;
+                                showMenu;
                         end;
                         #51: begin
                                 clrscr;
