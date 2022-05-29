@@ -127,7 +127,7 @@ begin   textBackground(Yellow);
                                 readln(changeNum);
                                 while (changeNum < 1) or (changeNum > n) do begin
                                         clrscr;
-                                        writeln('Vybirite tur ot 1 do ', n);
+                                        writeln('Nuzhno vybrat tur ot 1 do ', n);
                                         readln(changeNum);
                                 end;
                                 clrscr;
@@ -180,21 +180,25 @@ begin   textBackground(Yellow);
                                 seek(f, 0);
                                 editTour(f, change, changeNum, fieldNum);
                                 clrscr;
-                                writeln('Tur uspeshno otredactirovan');
+                                writeln('Tur uspeshno otredactirovan!');
                                 firstWin;
                                 showMenu;
                         end;
                         #52: begin
+                                secondWin;
                                 seek(f, 0);
-                                clrscr;
                                 writeln('Kakoy tur hotite udalit?');
                                 readln(delNum);
                                 while (delNum < 1) or (delNum > n) do begin
-                                        writeln('Vybirite tur ot 1 do ', n);
+                                        clrscr;
+                                        writeln('Nuzhno vybirat tur ot 1 do ', n);
                                         readln(delNum);
                                 end;
                                 delTour(f, delNum);
-                                showBack;
+                                clrscr;
+                                writeln('Tur byl udalen!');
+                                firstWin;
+                                showMenu;
                         end;
                         #53: begin
                                 seek(f, 0);

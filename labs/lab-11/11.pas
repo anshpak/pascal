@@ -202,23 +202,23 @@ begin   textBackground(Yellow);
                         end;
                         #53: begin
                                 seek(f, 0);
-                                clrscr;
+                                secondWin;
                                 showCommercial(f);
-                                showBack;
+                                firstWin;
+                                showMenu;
                         end;
                         #54: begin
                                 seek(f, 0);
-                                clrscr;
+                                secondWin;
                                 showWellness(f);
-                                showBack;
+                                firstWin;
+                                showMenu;
                         end;
                         #55: begin
                                 seek(f, 0);
-                                clrscr;
+                                secondWin;
                                 showExpensive(f);
-                        end;
-                        #48: begin
-                                clrscr;
+                                firstWin;
                                 showMenu;
                         end;
                 end;
