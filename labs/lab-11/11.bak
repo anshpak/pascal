@@ -15,15 +15,13 @@ type
 procedure showMenu;
 begin
         writeln('Vibirite optsiy:');
-        writeln('1 - prochitat tekstoviy file');
-        writeln('2 - zapisat v tipizirovaniy file');
-        writeln('3 - prochitat tipizirovanyi file');
-        writeln('4 - dobavit tour');
-        writeln('5 - redaktirovat tour');
-        writeln('6 - udalit tour');
-        writeln('7 - pokazat kommercheskiye');
-        writeln('8 - pokazat otdyha');
-        writeln('9 - try samih dorogix toura');
+        writeln('1 - pokazat vse tury');
+        writeln('2 - dobavit tur');
+        writeln('3 - redaktirovat tur');
+        writeln('4 - udalit tur');
+        writeln('5 - pokazat vse kommercheskiye tury');
+        writeln('6 - pokazat vse tury otdyha');
+        writeln('7 - pokazat 3 samih dorogih tura');
         writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
 end;
 
@@ -40,10 +38,11 @@ begin
         write(myTour.city, '. ');
         write(myTour.residence, '. ');
         write(myTour.class, '. ');
-        write(myTour.price, '. ');
+        write(myTour.price, '$. ');
         write(myTour.vacancies, '.', #10#13);
 end;
 
+{Для отладки}
 procedure showTextFile(var t: text);
 var
         myTour: tour;
@@ -250,7 +249,7 @@ var
         ch: char;
         country, city, residence, class, change: sType;
         price: word;
-        vacancies, variant, changeNum, delNum, fieldNum: byte;
+        vacancies, n, variant, changeNum, delNum, fieldNum: byte;
 
 begin
         clrscr;
@@ -258,92 +257,86 @@ begin
         assign(f, 'tour-agency.dat');
         reset(t);
         rewrite(f);
+        fillTypeFile(t, f); {Копирую все данные из текстового в типизированный файл}
         showMenu;
         repeat
+                n := filesize(f);
                 ch := readkey;
                 case ch of
                         #49: begin
-                                reset(t);
                                 clrscr;
-                                showTextFile(t);
-                                showBack;
-                        end;
-                        #50: begin
-                                reset(t);
-                                clrscr;
-                                fillTypeFile(t, f);
-                                showBack;
-                        end;
-                        #51: begin
                                 seek(f, 0);
-                                clrscr;
                                 showTypeFile(f);
                                 showBack;
                         end;
-                        #52: begin
+                        #50: begin
                                 clrscr;
-                                writeln('Enter the country of a tour:');
+                                writeln('Vvedite stranu:');
                                 readln(country);
-                                writeln('Enter the city of a tour:');
+                                writeln('Vvedite gorod:');
                                 readln(city);
-                                writeln('Enter the residence of a tour:');
+                                writeln('Vvedite mesto prozhivaniya:');
                                 readln(residence);
-                                writeln('Enter the type of a tour:');
+                                writeln('Vvedite tip (wellnes, commercial):');
                                 readln(class);
-                                writeln('Enter the price of a tour:');
+                                writeln('Vvedite tsenu:');
                                 readln(price);
-                                writeln('Enter the number of vacancies of a tour:');
+                                writeln('Vvedite kolichestvo svobodnyh mest:');
                                 readln(vacancies);
-                                seek(f, fileSize(f));
+                                seek(f, n);
                                 addTour(f, country, city, residence, class, price, vacancies);
                                 showBack;
                         end;
-                        #53: begin
+                        #51: begin
                                 clrscr;
-                                writeln('Kakoy tour hotite izmenit?');
+                                writeln('Kakoy tur hotite izmenit?');
                                 readln(changeNum);
-                                writeln('Kakoy parametr toura hotite izmenyat?');
-                                writeln('1 - country');
-                                writeln('2 - city');
-                                writeln('3 - residence');
-                                writeln('4 - type');
-                                writeln('5 - price');
-                                writeln('6 - vacancies');
+                                while (changeNum < 1) or (changeNum > n) do begin
+                                        writeln('Vybirite tur ot 1 do ', n);
+                                        readln(changeNum);
+                                end;
+                                writeln('Kakoy parametr tura hotite izmenit?');
+                                writeln('1 - strana');
+                                writeln('2 - gorod');
+                                writeln('3 - mesto prozhivaniya');
+                                writeln('4 - tip');
+                                writeln('5 - tsena');
+                                writeln('6 - kolichestvo svobodnyh mest');
                                 readln(variant);
                                 case variant of
                                         1: begin
                                                 clrscr;
-                                                writeln('Vvedite country:');
+                                                writeln('Vvedite stranu:');
                                                 readln(change);
                                                 fieldNum := 1;
                                         end;
                                         2: begin
                                                 clrscr;
-                                                writeln('Vvedite city:');
+                                                writeln('Vvedite gorod:');
                                                 readln(change);
                                                 fieldNum := 2;
                                         end;
                                         3: begin
                                                 clrscr;
-                                                writeln('Vvedite residence:');
+                                                writeln('Vvedite mesto prozhivaniya:');
                                                 readln(change);
                                                 fieldNum := 3;
                                         end;
                                         4: begin
                                                 clrscr;
-                                                writeln('Vvedite type:');
+                                                writeln('Vvedite tip:');
                                                 readln(change);
                                                 fieldNum := 4;
                                         end;
                                         5: begin
                                                 clrscr;
-                                                writeln('Vvedite price:');
+                                                writeln('Vvedite tsenu:');
                                                 readln(change);
                                                 fieldNum := 5;
                                         end;
                                         6: begin
                                                 clrscr;
-                                                writeln('Vvedite vacncies:');
+                                                writeln('Vvedite kolichestvo svobodnyh mest:');
                                                 readln(change);
                                                 fieldNum := 6;
                                         end;
@@ -352,27 +345,31 @@ begin
                                 editTour(f, change, changeNum, fieldNum);
                                 showBack;
                         end;
-                        #54: begin
+                        #52: begin
                                 seek(f, 0);
                                 clrscr;
-                                writeln('Kakoy tour hotite udalit?');
+                                writeln('Kakoy tur hotite udalit?');
                                 readln(delNum);
+                                while (delNum < 1) or (delNum > n) do begin
+                                        writeln('Vybirite tur ot 1 do ', n);
+                                        readln(delNum);
+                                end;
                                 delTour(f, delNum);
                                 showBack;
                         end;
-                        #55: begin
+                        #53: begin
                                 seek(f, 0);
                                 clrscr;
                                 showCommercial(f);
                                 showBack;
                         end;
-                        #56: begin
+                        #54: begin
                                 seek(f, 0);
                                 clrscr;
                                 showWellness(f);
                                 showBack;
                         end;
-                        #57: begin
+                        #55: begin
                                 seek(f, 0);
                                 clrscr;
                                 showExpensive(f);
