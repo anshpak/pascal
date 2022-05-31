@@ -12,9 +12,9 @@ begin
                 else begin
                         write ('char: ');                                      {алфавитно-цифровая}
                         if ch >= #32 then
-                                write(ch)
-                        else write('^', chr(ord(ch) + 64));                    {управляющий символ}
+                                write(ch, '. ')
+                        else write('^ ', chr(ord(ch) + 64));                    {управляющий символ}
                 end;
-      writeln ('ascii: ', ord(ch));
+      writeln ('Ascii: ', ord(ch));
         until ch = #27;                                                        {выход по esc}
 end.

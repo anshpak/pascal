@@ -8,14 +8,13 @@ begin
                 ch := readkey;
                 if ch = #0 then begin
                         ch := readkey;
-                        write('Spec: ', byte(ch));
                 end
                 else begin
                         write ('char: ');                                      {алфавитно-цифровая}
                         if ch >= #32 then
-                                write(ch)
+                                write(ch, '. ')
                         else write('^', chr(ord(ch) + 64));                    {управляющий символ}
                 end;
-      writeln ('ascii: ', ord(ch));
+      writeln ('Ascii: ', ord(ch));
         until ch = #27;                                                        {выход по esc}
 end.
