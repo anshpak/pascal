@@ -1,0 +1,259 @@
+unit tourAgency;
+
+interface
+type
+        sType = string[30];
+        tour = record
+                country: sType; {Страна}
+                city: sType; {Город}
+                residence: sType; {Место проживания (отель или дом отдыха)}
+                class: sType; {Характер тура (коммерческий, оздоровительный и т. д.)}
+                price: word; {Цена}
+                vacancies: byte; {Количество свободных мест}
+        end;
+        fTour = file of tour;
+
+procedure showMenu;
+procedure showTour(var myTour: tour);
+procedure showTextFile(var t: text);
+procedure showTypeFile(var f: fTour);
+procedure fillTypeFile(var t: text; var f: fTour);
+procedure addTour(var f: fTour; country, city, residence, class: sType; price: word; vacancies: byte);
+procedure editTour(var f: fTour; change: sType; tourNum, fieldNum: byte);
+procedure delTour(var f: fTour; tourNum: byte);
+procedure showCommercial(var f: fTour);
+procedure showWellness(var f: fTour);
+procedure popMaxPrice(var f: fTour);
+procedure showExpensive(var f: fTour);
+
+implementation
+
+procedure showMenu;
+begin
+        writeln('Vibirite optsiy:');
+        writeln('1 - pokazat vse tury');
+        writeln('2 - dobavit tur');
+        writeln('3 - redaktirovat tur');
+        writeln('4 - udalit tur');
+        writeln('5 - pokazat vse kommercheskiye tury');
+        writeln('6 - pokazat vse tury otdyha');
+        writeln('7 - pokazat 3 samih dorogih tura');
+        writeln('Nazhmite klavishu ESC shtoby zaconchit rabotu...');
+end;
+
+procedure showTour(var myTour: tour);
+var
+        st1, st2: string;
+begin
+        str(myTour.price, st1);
+        str(myTour.vacancies, st2);
+        write(myTour.country, ' ':15 - length(myTour.country));
+        write(myTour.city, ' ':16 - length(myTour.city));
+        write(' ':5, myTour.residence, ' ':22 - length(myTour.residence));
+        write(' ':5, myTour.class, ' ':11 - length(myTour.class));
+        write(' ':5, myTour.price, '$', ' ':8 - length(st1));
+        write(' ':5, myTour.vacancies,' ':4 - length(st2), #10#13);
+end;
+
+{Для отладки}
+procedure showTextFile(var t: text);
+var
+        myTour: tour;
+        i: byte;
+begin
+        while not eof(t) do begin
+                readln(t, myTour.country);
+                readln(t, myTour.city);
+                readln(t, myTour.residence);
+                readln(t, myTour.class);
+                readln(t, myTour.price);
+                readln(t, myTour.vacancies);
+                showTour(myTour);
+        end;
+end;
+
+procedure showTypeFile(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                showTour(myTour);
+        end;
+end;
+
+procedure fillTypeFile(var t: text; var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(t) do begin
+                readln(t, myTour.country);
+                readln(t, myTour.city);
+                readln(t, myTour.residence);
+                readln(t, myTour.class);
+                readln(t, myTour.price);
+                readln(t, myTour.vacancies);
+                write(f, myTour);
+        end;
+end;
+
+procedure addTour(var f: fTour; country, city, residence, class: sType; price: word; vacancies: byte);
+var
+        myTour: tour;
+begin
+        myTour.country := country;
+        myTour.city := city;
+        myTour.residence := residence;
+        myTour.class := class;
+        myTour.price := price;
+        myTour.vacancies := vacancies;
+        write(f, myTour);
+end;
+
+procedure editTour(var f: fTour; change: sType; tourNum, fieldNum: byte);
+var
+        myTour, tempTour: tour;
+        fTemp: fTour;
+        numTmp: integer;
+begin
+        assign(fTemp, 'temp.dat');
+        rewrite(fTemp);
+        while filePos(f) <> tourNum - 1  do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
+
+        read(f, myTour);
+        case fieldNum of
+                1: myTour.country := change;
+                2: myTour.city := change;
+                3: myTour.residence := change;
+                4: myTour.class := change;
+                5: begin
+                        val(change, numTmp);
+                        myTour.price := numTmp;
+                end;
+                6: begin
+                        val(change, numTmp);
+                        myTour.vacancies := numTmp;
+                end;
+        end;
+
+        write(fTemp, myTour);
+
+        while not eof(f) do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
+
+        seek(f, 0);
+        seek(fTemp, 0);
+        truncate(f);
+        while not eof(fTemp) do begin
+                read(fTemp, tempTour);
+                write(f, tempTour);
+        end;
+
+        close(fTemp);
+        erase(fTemp);
+end;
+
+procedure delTour(var f: fTour; tourNum: byte);
+var
+        fTemp: fTour;
+        tempTour: tour;
+begin
+        seek(f, 0);
+        assign(fTemp, 'temp.dat');
+        rewrite(fTemp);
+        while filePos(f) <> tourNum - 1  do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
+
+        seek(f, filePos(f) + 1);
+
+        while not eof(f) do begin
+                read(f, tempTour);
+                write(fTemp, tempTour);
+        end;
+
+        seek(f, 0);
+        seek(fTemp, 0);
+        truncate(f);
+        while not eof(fTemp) do begin
+                read(fTemp, tempTour);
+                write(f, tempTour);
+        end;
+
+        close(fTemp);
+        erase(fTemp);
+end;
+
+procedure showCommercial(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                if (myTour.class = 'commercial') then
+                        showTour(myTour);
+        end;
+end;
+
+procedure showWellness(var f: fTour);
+var
+        myTour: tour;
+begin
+        while not eof(f) do begin
+                read(f, myTour);
+                if (myTour.class = 'wellness') then
+                        showTour(myTour);
+        end;
+end;
+
+procedure popMaxPrice(var f: fTour);
+var
+        myTour, tempTour: tour;
+        imax : byte;
+begin
+        seek(f, 0);
+
+        read(f, tempTour);
+        myTour := tempTour;
+
+        while not eof(f) do begin
+                read(f, tempTour);
+                if (tempTour.price > myTour.price) then begin
+                        myTour := tempTour;
+                        imax := filePos(f);
+                end;
+        end;
+
+        showTour(myTour);
+        delTour(f, imax);
+end;
+
+procedure showExpensive(var f: fTour);
+var
+        myTour, tempTour: tour;
+        fTmp: fTour;
+        max, max1, max2: word;
+        imax, imax1, imax2: byte;
+begin
+        assign(fTmp, 'ftmp.dat');
+        rewrite(fTmp);
+        while not eof(f) do begin
+                read(f, tempTour);
+                write(fTmp, tempTour);
+        end;
+
+        popMaxPrice(fTmp);
+        popMaxPrice(fTmp);
+        popMaxPrice(fTmp);
+
+        close(fTmp);
+        erase(fTmp);
+end;
+
+end.
