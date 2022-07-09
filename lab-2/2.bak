@@ -1,0 +1,73 @@
+program secondLab;
+
+var
+	x, y: real;
+    i, allHits, trueHits: byte;
+    hit, centerHit: boolean;
+
+function getHitResult(x, y:real):boolean;
+var
+	isHitTrue1, isHitTrue2: boolean;
+
+begin
+
+	isHitTrue1 := (((x >= -2) and (x <= 1)) and ((y >= -1/3*x-2/3) and (y <= 1/3*x+2/3)));
+	isHitTrue2 := (((x >= 1) and (x <= 2)) and ((y >= -sqrt(1-(x-1)*(x-1))) and (y <= sqrt(1-(x-1)*(x-1)))));
+	getHitResult := isHitTrue1 or isHitTrue2;
+end;
+
+function getCenterResult(x, y:real):boolean;
+  begin
+	getCenterResult := ((x = 0) and (y = 0));
+  end;
+
+procedure printTableHead;
+begin
+	writeln('ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿':70);
+        writeln('³      x      ³      y      ³    ¥§ã«ìâ â    ³':70);
+	writeln('ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´':70);
+end;
+
+procedure printTableMiddle(x, y:real; hit, centerHit: boolean);
+begin
+	if centerHit then
+		writeln('³  ':26, x:5:1, '      ³    ':10, y:5:2, '    ³':4,'    ‚ ï¡«®çª®!   ³')
+	else if hit then
+		writeln('³  ':26, x:5:1, '      ³    ':10, y:5:2, '    ³':4,'      ®¯ «!     ³')
+	else
+		writeln('³  ':26, x:5:1, '      ³    ':10, y:5:2, '    ³':4,'      Œ¨¬®!      ³');
+end;
+
+procedure printTableFooter;
+begin
+	writeln('ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ':70);
+end;
+
+begin
+	trueHits:=0;
+	randomize;
+	printTableHead;
+	allHits:=random(50);
+	for i := 1 to allHits do
+	begin
+		x := random(5);
+        y := random(5);
+		{getHitResult(x,y);}
+		centerHit:=getCenterResult(x,y);
+		hit:=getHitResult(x,y);
+		printTableMiddle(x,y,hit,centerHit);
+		if hit then
+        begin
+			inc(trueHits);
+			if centerHit then
+				break;
+        end;
+	end;
+	allHits:=i;
+	printTableFooter;
+	writeln('‚á¥£® ¢ëáâà¥«®¢: ':40, allHits);
+	writeln('Š®«¨ç¥áâ¢® ¯®¯ ¤ ­¨©: ':45, trueHits);
+	writeln('Š®«¨ç¥áâ¢® ¯à®¬ å®¢: ':44, (allHits - trueHits));
+	writeln('à®æ¥­â ¯®¯ ¤ ­¨©: ':42, ((trueHits / allHits)*100):4:2, '%');
+	readln;
+end.
